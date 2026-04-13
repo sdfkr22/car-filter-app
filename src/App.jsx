@@ -15,6 +15,11 @@ function buildUrl(code) {
   return "https://www.mann-filter.com/tr-tr/katalog/arama-sonuclar%C4%B1/urun.html/" + c + "_mann-filter.html";
 }
 
+function toArray(val) {
+  if (val == null) return [];
+  return Array.isArray(val) ? val : [val];
+}
+
 export default function App() {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -76,38 +81,43 @@ export default function App() {
 
             {results.length > 0 && (
               <div ref={ref} style={{ marginTop: 16 }}>
-                {results.map((r, ri) => (
-                  <div key={ri} style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 20, marginBottom: 12 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                      <div style={{ width: 7, height: 7, background: "#78a22f", borderRadius: "50%" }} />
-                      <h3 style={{ fontSize: 14, fontWeight: 700 }}>{r.make} {r.model} — {r.engine}</h3>
-                      <span style={{ fontSize: 11, color: "#78a22f", marginLeft: "auto", background: "#1a2a10", padding: "3px 10px", borderRadius: 12 }}>{r.ps} PS / {r.kw} kW</span>
+                {results.map((r, ri) => {
+                  const filterCards = ["oil", "air", "cabin", "fuel"]
+                    .flatMap(key => {
+                      const codes = toArray(r[key]);
+                      return codes.map(code => ({ key, code }));
+                    });
+
+                  if (filterCards.length === 0) return null;
+
+                  return (
+                    <div key={ri} style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
+                        <div style={{ width: 7, height: 7, background: "#78a22f", borderRadius: "50%" }} />
+                        <h3 style={{ fontSize: 14, fontWeight: 700 }}>{r.make} {r.model} — {r.engine}</h3>
+                        <span style={{ fontSize: 11, color: "#78a22f", marginLeft: "auto", background: "#1a2a10", padding: "3px 10px", borderRadius: 12 }}>{r.ps} PS / {r.kw} kW</span>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10 }}>
+                        {filterCards.map((f, fi) => {
+                          const info = FILTER_TYPES[f.key];
+                          const url = buildUrl(f.code);
+                          const Tag = url ? "a" : "div";
+                          return (
+                            <Tag key={fi} href={url || undefined} target="_blank" rel="noopener"
+                              style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: 14, textDecoration: "none", color: "#e5e5e5", transition: "all .2s", display: "block" }}
+                              onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                              onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.transform = "none"; }}>
+                              <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
+                              <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{info.label}</div>
+                              <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>{f.code}</div>
+                              {url && <div style={{ fontSize: 10, color: "#78a22f", marginTop: 4 }}>Katalogda Gör ↗</div>}
+                            </Tag>
+                          );
+                        })}
+                      </div>
                     </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10 }}>
-                      {[
-                        { key: "oil", code: r.oil },
-                        { key: "air", code: r.air },
-                        { key: "cabin", code: r.cabin },
-                        { key: "fuel", code: r.fuel },
-                      ].filter(f => f.code).map((f, fi) => {
-                        const info = FILTER_TYPES[f.key];
-                        const url = buildUrl(f.code);
-                        const Tag = url ? "a" : "div";
-                        return (
-                          <Tag key={fi} href={url || undefined} target="_blank" rel="noopener"
-                            style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: 14, textDecoration: "none", color: "#e5e5e5", transition: "all .2s", display: "block" }}
-                            onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                            onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.transform = "none"; }}>
-                            <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
-                            <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{info.label}</div>
-                            <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>{f.code}</div>
-                            {url && <div style={{ fontSize: 10, color: "#78a22f", marginTop: 4 }}>Katalogda Gör ↗</div>}
-                          </Tag>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
