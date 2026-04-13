@@ -11,7 +11,7 @@ const FILTER_TYPES = {
 
 function buildUrl(code) {
   if (!code) return null;
-  const c = code.split(" / ")[0].replace(/\s+/g,"").toLowerCase();
+  const c = code.split(" / ")[0].replace(/\s+/g, "").toLowerCase();
   return "https://www.mann-filter.com/tr-tr/katalog/arama-sonuclar%C4%B1/urun.html/" + c + "_mann-filter.html";
 }
 
@@ -20,12 +20,33 @@ function toArray(val) {
   return Array.isArray(val) ? val : [val];
 }
 
+function findVehiclesByFilter(code) {
+  return DB.filter(d =>
+    toArray(d.oil).includes(code) ||
+    toArray(d.air).includes(code) ||
+    toArray(d.cabin).includes(code) ||
+    toArray(d.fuel).includes(code)
+  );
+}
+
+function getFilterType(code) {
+  for (const d of DB) {
+    if (toArray(d.oil).includes(code)) return "oil";
+    if (toArray(d.air).includes(code)) return "air";
+    if (toArray(d.cabin).includes(code)) return "cabin";
+    if (toArray(d.fuel).includes(code)) return "fuel";
+  }
+  return null;
+}
+
 export default function App() {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [power, setPower] = useState("");
   const [productSearch, setProductSearch] = useState("");
   const [tab, setTab] = useState("vehicle");
+  const [modalCode, setModalCode] = useState(null);
+  const [modalType, setModalType] = useState(null);
   const ref = useRef(null);
 
   const makes = useMemo(() => [...new Set(DB.map(d => d.make))].sort(), []);
@@ -38,8 +59,21 @@ export default function App() {
     return filtered;
   }, [make, model, power]);
 
+  const modalVehicles = useMemo(() => modalCode ? findVehiclesByFilter(modalCode) : [], [modalCode]);
+  const modalGrouped = useMemo(() => {
+    const grouped = {};
+    modalVehicles.forEach(v => {
+      const key = v.make;
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push(v);
+    });
+    return Object.entries(grouped).sort((a, b) => a[0].localeCompare(b[0]));
+  }, [modalVehicles]);
+
   const handleMake = v => { setMake(v); setModel(""); setPower(""); };
   const handleModel = v => { setModel(v); setPower(""); };
+  const openModal = (code, type) => { setModalCode(code); setModalType(type); };
+  const closeModal = () => { setModalCode(null); setModalType(null); };
 
   return (
     <div style={{ minHeight: "100vh", background: "#090909", color: "#e5e5e5", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
@@ -100,18 +134,17 @@ export default function App() {
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10 }}>
                         {filterCards.map((f, fi) => {
                           const info = FILTER_TYPES[f.key];
-                          const url = buildUrl(f.code);
-                          const Tag = url ? "a" : "div";
                           return (
-                            <Tag key={fi} href={url || undefined} target="_blank" rel="noopener"
-                              style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: 14, textDecoration: "none", color: "#e5e5e5", transition: "all .2s", display: "block" }}
+                            <div key={fi}
+                              onClick={() => openModal(f.code, f.key)}
+                              style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: 14, cursor: "pointer", transition: "all .2s" }}
                               onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateY(-1px)"; }}
                               onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.transform = "none"; }}>
                               <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
                               <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{info.label}</div>
                               <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>{f.code}</div>
-                              {url && <div style={{ fontSize: 10, color: "#78a22f", marginTop: 4 }}>Katalogda Gör ↗</div>}
-                            </Tag>
+                              <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>Detaylar ve uyumlu araçlar →</div>
+                            </div>
                           );
                         })}
                       </div>
@@ -127,14 +160,33 @@ export default function App() {
           <div>
             <div style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 22, marginTop: 6 }}>
               <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>Ürün Kodu ile Arama</h3>
-              <p style={{ color: "#555", fontSize: 11, marginBottom: 16 }}>MANN-FILTER parça numarası girerek resmi katalogda ürünü açın</p>
+              <p style={{ color: "#555", fontSize: 11, marginBottom: 16 }}>MANN-FILTER parça numarası girerek uyumlu araçları görüntüleyin veya resmi katalogda açın</p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <input value={productSearch} onChange={e => setProductSearch(e.target.value)} onKeyDown={e => { if (e.key === "Enter") { const u = buildUrl(productSearch.trim()); if (u) window.open(u, "_blank"); }}} placeholder="Örn: HU 719/7 x, W 712/95, CUK 2939" style={{ flex: "1 1 220px", padding: "10px 12px", background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#e5e5e5", fontSize: 13, outline: "none" }} />
-                <button onClick={() => { const u = buildUrl(productSearch.trim()); if (u) window.open(u, "_blank"); }} style={{ padding: "10px 18px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>Katalogda Ara ↗</button>
+                <input value={productSearch} onChange={e => setProductSearch(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      const trimmed = productSearch.trim();
+                      if (trimmed) {
+                        const type = getFilterType(trimmed);
+                        if (type) { openModal(trimmed, type); }
+                        else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
+                      }
+                    }
+                  }}
+                  placeholder="Örn: HU 719/7 x, W 712/95, CUK 2939" style={{ flex: "1 1 220px", padding: "10px 12px", background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#e5e5e5", fontSize: 13, outline: "none" }} />
+                <button onClick={() => {
+                  const trimmed = productSearch.trim();
+                  if (trimmed) {
+                    const type = getFilterType(trimmed);
+                    if (type) { openModal(trimmed, type); }
+                    else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
+                  }
+                }} style={{ padding: "10px 18px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>Ara</button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 10 }}>
-                {["HU 719/7 x","W 712/95","C 30 005","CUK 2939","HU 7020 z","PU 8014","HU 816 x","CU 25 001","WK 69/2","HU 7008 z","C 35 154","HU 6013 z","HU 618 y","HU 7048 z"].map(c => (
-                  <button key={c} onClick={() => setProductSearch(c)} style={{ padding: "3px 9px", background: "#1a1a1a", border: "1px solid #252525", borderRadius: 14, color: "#777", fontSize: 10, cursor: "pointer" }}>{c}</button>
+                {["HU 719/7 x", "W 712/95", "C 30 005", "CUK 2939", "HU 7020 z", "PU 8014", "HU 816 x", "CU 25 001", "WK 69/2", "HU 7008 z", "C 35 154", "HU 6013 z", "HU 618 y", "HU 7048 z"].map(c => (
+                  <button key={c} onClick={() => { setProductSearch(c); const type = getFilterType(c); if (type) openModal(c, type); }}
+                    style={{ padding: "3px 9px", background: "#1a1a1a", border: "1px solid #252525", borderRadius: 14, color: "#777", fontSize: 10, cursor: "pointer" }}>{c}</button>
                 ))}
               </div>
             </div>
@@ -151,8 +203,65 @@ export default function App() {
         )}
       </div>
 
+      {/* MODAL */}
+      {modalCode && (
+        <div onClick={closeModal} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.7)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: "#131313", border: "1px solid #2a2a2a", borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+
+            {/* Modal Header */}
+            <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 10, background: (FILTER_TYPES[modalType]?.color || "#78a22f") + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+                    {FILTER_TYPES[modalType]?.icon || "🔧"}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{FILTER_TYPES[modalType]?.label || "Filtre"}</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: FILTER_TYPES[modalType]?.color || "#78a22f" }}>{modalCode}</div>
+                  </div>
+                </div>
+                <button onClick={closeModal} style={{ background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#888", width: 32, height: 32, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
+              </div>
+
+              <div style={{ display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
+                <a href={buildUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  MANN-FILTER Katalogda Gör ↗
+                </a>
+                <div style={{ padding: "7px 12px", background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 7, fontSize: 12, color: "#999" }}>
+                  {modalVehicles.length} araç-motor eşleşmesi · {modalGrouped.length} marka
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div style={{ overflowY: "auto", padding: "12px 22px 22px", flex: 1 }}>
+              {modalGrouped.map(([makeName, vehicles]) => (
+                <div key={makeName} style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#78a22f", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, padding: "6px 0", borderBottom: "1px solid #1e1e1e", position: "sticky", top: 0, background: "#131313", zIndex: 1 }}>
+                    {makeName} <span style={{ color: "#555", fontWeight: 400 }}>({vehicles.length})</span>
+                  </div>
+                  {vehicles.map((v, vi) => (
+                    <div key={vi} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 6, marginBottom: 2, background: vi % 2 === 0 ? "#0e0e0e" : "transparent" }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{v.model}</div>
+                        <div style={{ fontSize: 11, color: "#777" }}>{v.engine}</div>
+                      </div>
+                      {v.ps && v.kw && (
+                        <div style={{ fontSize: 10, color: "#78a22f", background: "#1a2a10", padding: "2px 8px", borderRadius: 10, whiteSpace: "nowrap", flexShrink: 0 }}>
+                          {v.ps} PS / {v.kw} kW
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "14px 20px", textAlign: "center", fontSize: 10, color: "#444" }}>
-        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır. Kartlara tıklayarak resmi katalog sayfasına ulaşabilirsiniz.
+        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır. Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
       </footer>
     </div>
   );
