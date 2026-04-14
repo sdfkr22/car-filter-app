@@ -1,18 +1,33 @@
 import { useState, useMemo, useRef } from "react";
 
 import DB from './mann-filter-data.json';
+import FILTRON_RAW from './filtron.json';
+
+// filtron.json: array of { man, filtron } OR single object — normalize to map
+const FILTRON_MAP = (() => {
+  const arr = Array.isArray(FILTRON_RAW) ? FILTRON_RAW : [FILTRON_RAW];
+  const map = {};
+  arr.forEach(({ man, filtron }) => { if (man && filtron) map[man.trim()] = filtron.trim(); });
+  return map;
+})();
 
 const FILTER_TYPES = {
-  oil: { label: "Yağ Filtresi", icon: "🛢️", color: "#f59e0b" },
-  air: { label: "Hava Filtresi", icon: "💨", color: "#3b82f6" },
+  oil:   { label: "Yağ Filtresi",   icon: "🛢️", color: "#f59e0b" },
+  air:   { label: "Hava Filtresi",  icon: "💨", color: "#3b82f6" },
   cabin: { label: "Kabin Filtresi", icon: "🌿", color: "#10b981" },
-  fuel: { label: "Yakıt Filtresi", icon: "⛽", color: "#ef4444" },
+  fuel:  { label: "Yakıt Filtresi", icon: "⛽", color: "#ef4444" },
 };
 
 function buildUrl(code) {
   if (!code) return null;
   const c = code.split(" / ")[0].replace(/\s+/g, "").toLowerCase();
   return "https://www.mann-filter.com/tr-tr/katalog/arama-sonuclar%C4%B1/urun.html/" + c + "_mann-filter.html";
+}
+
+function buildFiltronUrl(code) {
+  if (!code) return null;
+  const c = code.replace(/\s+/g, "").toLowerCase();
+  return "https://www.filtron.eu/search?q=" + encodeURIComponent(code);
 }
 
 function toArray(val) {
@@ -39,6 +54,144 @@ function getFilterType(code) {
   return null;
 }
 
+/* ── Filtron Card ── */
+function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
+  const [hovered, setHovered] = useState(false);
+  const info = FILTER_TYPES[filterKey];
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Connector line */}
+      <div style={{
+        position: "absolute", top: "50%", left: -12, width: 12, height: 2,
+        background: "linear-gradient(90deg,#ff6b0033,#ff6b00)",
+        transform: "translateY(-50%)", zIndex: 0
+      }} />
+      <div
+        onClick={() => onOpenModal(filtronCode, filterKey)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          background: hovered
+            ? "linear-gradient(135deg,#1a0e00,#2a1500)"
+            : "linear-gradient(135deg,#130c00,#1e1000)",
+          border: `1px solid ${hovered ? "#ff6b00" : "#3a2200"}`,
+          borderRadius: 8,
+          padding: 14,
+          cursor: "pointer",
+          transition: "all .2s",
+          transform: hovered ? "translateY(-1px)" : "none",
+          boxShadow: hovered ? "0 4px 16px rgba(255,107,0,0.2)" : "none",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        {/* Filtron badge */}
+        <div style={{
+          position: "absolute", top: 0, right: 0,
+          background: "linear-gradient(135deg,#ff6b00,#ff9500)",
+          borderRadius: "0 8px 0 10px",
+          padding: "3px 8px",
+          fontSize: 8,
+          fontWeight: 800,
+          color: "#fff",
+          letterSpacing: 0.5,
+          textTransform: "uppercase"
+        }}>
+          FILTRON
+        </div>
+        {/* Subtle brand watermark */}
+        <div style={{
+          position: "absolute", bottom: 4, right: 8,
+          fontSize: 28, opacity: 0.04, fontWeight: 900,
+          color: "#ff6b00", pointerEvents: "none", userSelect: "none"
+        }}>F</div>
+
+        <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
+        <div style={{ fontSize: 10, fontWeight: 600, color: "#7a4a00", textTransform: "uppercase", letterSpacing: 1 }}>
+          {info.label}
+        </div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#ff9500", margin: "2px 0" }}>
+          {filtronCode}
+        </div>
+        <div style={{ fontSize: 9, color: "#7a4a00", marginTop: 2 }}>
+          MANN <span style={{ color: "#555" }}>{mannCode}</span> muadili
+        </div>
+        <div style={{ fontSize: 10, color: "#7a4a00", marginTop: 4 }}>
+          Detaylar ve uyumlu araçlar →
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Mann Filter Card ── */
+function MannCard({ code, filterKey, onOpenModal }) {
+  const [hovered, setHovered] = useState(false);
+  const info = FILTER_TYPES[filterKey];
+  const filtronCode = FILTRON_MAP[code];
+  return (
+    <div style={{ display: "contents" }}>
+      <div
+        onClick={() => onOpenModal(code, filterKey)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          background: "#0e0e0e",
+          border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
+          borderRadius: 8,
+          padding: 14,
+          cursor: "pointer",
+          transition: "all .2s",
+          transform: hovered ? "translateY(-1px)" : "none",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        {/* MANN badge */}
+        <div style={{
+          position: "absolute", top: 0, right: 0,
+          background: "#1a1a1a",
+          borderRadius: "0 8px 0 10px",
+          padding: "3px 8px",
+          fontSize: 8,
+          fontWeight: 800,
+          color: "#555",
+          letterSpacing: 0.5,
+          border: "1px solid #222",
+          borderTop: "none", borderRight: "none"
+        }}>
+          MANN
+        </div>
+        <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
+        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+          {info.label}
+        </div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>
+          {code}
+        </div>
+        {filtronCode && (
+          <div style={{ fontSize: 9, color: "#3a6b20", marginTop: 2 }}>
+            ✓ Filtron muadili mevcut
+          </div>
+        )}
+        <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>
+          Detaylar ve uyumlu araçlar →
+        </div>
+      </div>
+
+      {/* Filtron pair card right after */}
+      {filtronCode && (
+        <FiltronCard
+          mannCode={code}
+          filtronCode={filtronCode}
+          filterKey={filterKey}
+          onOpenModal={onOpenModal}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -47,6 +200,7 @@ export default function App() {
   const [tab, setTab] = useState("vehicle");
   const [modalCode, setModalCode] = useState(null);
   const [modalType, setModalType] = useState(null);
+  const [modalBrand, setModalBrand] = useState("mann"); // "mann" | "filtron"
   const ref = useRef(null);
 
   const makes = useMemo(() => [...new Set(DB.map(d => d.make))].sort(), []);
@@ -59,7 +213,17 @@ export default function App() {
     return filtered;
   }, [make, model, power]);
 
-  const modalVehicles = useMemo(() => modalCode ? findVehiclesByFilter(modalCode) : [], [modalCode]);
+  const modalVehicles = useMemo(() => {
+    if (!modalCode) return [];
+    // For filtron codes, reverse-map to mann code and find vehicles
+    if (modalBrand === "filtron") {
+      const mannCode = Object.entries(FILTRON_MAP).find(([m, f]) => f === modalCode)?.[0];
+      if (mannCode) return findVehiclesByFilter(mannCode);
+      return [];
+    }
+    return findVehiclesByFilter(modalCode);
+  }, [modalCode, modalBrand]);
+
   const modalGrouped = useMemo(() => {
     const grouped = {};
     modalVehicles.forEach(v => {
@@ -72,8 +236,10 @@ export default function App() {
 
   const handleMake = v => { setMake(v); setModel(""); setPower(""); };
   const handleModel = v => { setModel(v); setPower(""); };
-  const openModal = (code, type) => { setModalCode(code); setModalType(type); };
-  const closeModal = () => { setModalCode(null); setModalType(null); };
+  const openModal = (code, type, brand = "mann") => { setModalCode(code); setModalType(type); setModalBrand(brand); };
+  const closeModal = () => { setModalCode(null); setModalType(null); setModalBrand("mann"); };
+
+  const isFiltronModal = modalBrand === "filtron";
 
   return (
     <div style={{ minHeight: "100vh", background: "#090909", color: "#e5e5e5", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
@@ -81,6 +247,7 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 4, height: 32, borderRadius: 2, background: "linear-gradient(180deg,#78a22f,#f5c518)" }} />
           <span style={{ fontWeight: 700, fontSize: 17 }}>MANN<span style={{ color: "#78a22f" }}>-FILTER</span></span>
+          <span style={{ fontSize: 10, color: "#555", padding: "2px 8px", background: "#1a1a1a", borderRadius: 10, border: "1px solid #252525" }}>+ FILTRON</span>
           <span style={{ fontSize: 12, color: "#666", marginLeft: 4 }}>Filtre Sorgulama</span>
         </div>
         <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ fontSize: 11, color: "#78a22f", textDecoration: "none", padding: "5px 12px", border: "1px solid #333", borderRadius: 6, fontWeight: 600 }}>Resmi Katalog ↗</a>
@@ -88,7 +255,13 @@ export default function App() {
 
       <div style={{ background: "linear-gradient(135deg,#111a08,#090909 50%,#141200)", padding: "36px 20px 24px", textAlign: "center" }}>
         <h1 style={{ fontSize: "clamp(22px,4vw,34px)", fontWeight: 700, marginBottom: 6 }}>Aracınıza Uygun <span style={{ color: "#78a22f" }}>Filtreyi</span> Bulun</h1>
-        <p style={{ color: "#777", fontSize: 13, maxWidth: 480, margin: "0 auto" }}>MANN-FILTER 2024-26 kataloğu — {DB.length} araç-motor eşleşmesi, {makes.length} marka</p>
+        <p style={{ color: "#777", fontSize: 13, maxWidth: 520, margin: "0 auto" }}>
+          MANN-FILTER 2024-26 kataloğu — {DB.length} araç-motor eşleşmesi · {makes.length} marka
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 4, marginLeft: 8, color: "#ff9500", fontSize: 11 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff6b00", display: "inline-block" }}></span>
+            Filtron muadilleri dahil
+          </span>
+        </p>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", padding: "14px 16px 0" }}>
@@ -110,7 +283,22 @@ export default function App() {
                 <Sel label="MODEL" value={model} onChange={handleModel} options={models} ph={make ? "Model seçin..." : "Önce marka seçin"} disabled={!make} />
                 <Sel label="MOTOR / GÜÇ (PS / kW)" value={power} onChange={setPower} options={powers.map(p => p.label)} ph={model ? "Motor seçin (opsiyonel)" : "Önce model seçin"} disabled={!model} />
               </div>
-              {make && model && <p style={{ fontSize: 12, color: "#78a22f" }}>{results.length} sonuç bulundu</p>}
+              {make && model && (
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <p style={{ fontSize: 12, color: "#78a22f" }}>{results.length} sonuç bulundu</p>
+                  {/* Legend */}
+                  <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#555" }}>
+                      <div style={{ width: 8, height: 8, background: "#1a1a1a", border: "1px solid #444", borderRadius: 2 }} />
+                      MANN-FILTER
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#7a4a00" }}>
+                      <div style={{ width: 8, height: 8, background: "linear-gradient(135deg,#ff6b00,#ff9500)", borderRadius: 2 }} />
+                      FILTRON muadili
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {results.length > 0 && (
@@ -131,22 +319,18 @@ export default function App() {
                         <h3 style={{ fontSize: 14, fontWeight: 700 }}>{r.make} {r.model} — {r.engine}</h3>
                         <span style={{ fontSize: 11, color: "#78a22f", marginLeft: "auto", background: "#1a2a10", padding: "3px 10px", borderRadius: 12 }}>{r.ps} PS / {r.kw} kW</span>
                       </div>
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10 }}>
-                        {filterCards.map((f, fi) => {
-                          const info = FILTER_TYPES[f.key];
-                          return (
-                            <div key={fi}
-                              onClick={() => openModal(f.code, f.key)}
-                              style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", borderRadius: 8, padding: 14, cursor: "pointer", transition: "all .2s" }}
-                              onMouseEnter={e => { e.currentTarget.style.borderColor = info.color; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                              onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.transform = "none"; }}>
-                              <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
-                              <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{info.label}</div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>{f.code}</div>
-                              <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>Detaylar ve uyumlu araçlar →</div>
-                            </div>
-                          );
-                        })}
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 10 }}>
+                        {filterCards.map((f, fi) => (
+                          <MannCard
+                            key={fi}
+                            code={f.code}
+                            filterKey={f.key}
+                            onOpenModal={(code, type) => {
+                              const isFiltron = FILTRON_MAP[f.code] === code || code !== f.code;
+                              openModal(code, type, isFiltron ? "filtron" : "mann");
+                            }}
+                          />
+                        ))}
                       </div>
                     </div>
                   );
@@ -168,7 +352,7 @@ export default function App() {
                       const trimmed = productSearch.trim();
                       if (trimmed) {
                         const type = getFilterType(trimmed);
-                        if (type) { openModal(trimmed, type); }
+                        if (type) { openModal(trimmed, type, "mann"); }
                         else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
                       }
                     }
@@ -178,14 +362,14 @@ export default function App() {
                   const trimmed = productSearch.trim();
                   if (trimmed) {
                     const type = getFilterType(trimmed);
-                    if (type) { openModal(trimmed, type); }
+                    if (type) { openModal(trimmed, type, "mann"); }
                     else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
                   }
                 }} style={{ padding: "10px 18px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>Ara</button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 10 }}>
                 {["HU 719/7 x", "W 712/95", "C 30 005", "CUK 2939", "HU 7020 z", "PU 8014", "HU 816 x", "CU 25 001", "WK 69/2", "HU 7008 z", "C 35 154", "HU 6013 z", "HU 618 y", "HU 7048 z"].map(c => (
-                  <button key={c} onClick={() => { setProductSearch(c); const type = getFilterType(c); if (type) openModal(c, type); }}
+                  <button key={c} onClick={() => { setProductSearch(c); const type = getFilterType(c); if (type) openModal(c, type, "mann"); }}
                     style={{ padding: "3px 9px", background: "#1a1a1a", border: "1px solid #252525", borderRadius: 14, color: "#777", fontSize: 10, cursor: "pointer" }}>{c}</button>
                 ))}
               </div>
@@ -206,28 +390,67 @@ export default function App() {
       {/* MODAL */}
       {modalCode && (
         <div onClick={closeModal} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.7)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#131313", border: "1px solid #2a2a2a", borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: isFiltronModal ? "#110a00" : "#131313",
+            border: `1px solid ${isFiltronModal ? "#3a2200" : "#2a2a2a"}`,
+            borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
+          }}>
 
             {/* Modal Header */}
-            <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
+            <div style={{ padding: "20px 22px 16px", borderBottom: `1px solid ${isFiltronModal ? "#2a1500" : "#222"}`, flexShrink: 0 }}>
+              {/* Brand banner for Filtron */}
+              {isFiltronModal && (
+                <div style={{
+                  background: "linear-gradient(135deg,#ff6b00,#ff9500)",
+                  margin: "-20px -22px 16px",
+                  padding: "8px 22px",
+                  display: "flex", alignItems: "center", gap: 8
+                }}>
+                  <span style={{ fontWeight: 900, fontSize: 14, color: "#fff", letterSpacing: 1 }}>FILTRON</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>— MANN-FILTER Muadili</span>
+                </div>
+              )}
+
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 42, height: 42, borderRadius: 10, background: (FILTER_TYPES[modalType]?.color || "#78a22f") + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>
+                  <div style={{
+                    width: 42, height: 42, borderRadius: 10,
+                    background: isFiltronModal ? "#ff6b0018" : (FILTER_TYPES[modalType]?.color || "#78a22f") + "18",
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22
+                  }}>
                     {FILTER_TYPES[modalType]?.icon || "🔧"}
                   </div>
                   <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{FILTER_TYPES[modalType]?.label || "Filtre"}</div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: FILTER_TYPES[modalType]?.color || "#78a22f" }}>{modalCode}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: isFiltronModal ? "#7a4a00" : "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+                      {FILTER_TYPES[modalType]?.label || "Filtre"}
+                    </div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: isFiltronModal ? "#ff9500" : (FILTER_TYPES[modalType]?.color || "#78a22f") }}>
+                      {modalCode}
+                    </div>
+                    {isFiltronModal && (() => {
+                      const mannCode = Object.entries(FILTRON_MAP).find(([m, f]) => f === modalCode)?.[0];
+                      return mannCode ? (
+                        <div style={{ fontSize: 10, color: "#555", marginTop: 2 }}>
+                          MANN <span style={{ color: "#78a22f" }}>{mannCode}</span> muadili
+                        </div>
+                      ) : null;
+                    })()}
                   </div>
                 </div>
-                <button onClick={closeModal} style={{ background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#888", width: 32, height: 32, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
+                <button onClick={closeModal} style={{ background: isFiltronModal ? "#1a0e00" : "#1a1a1a", border: `1px solid ${isFiltronModal ? "#3a2200" : "#333"}`, borderRadius: 8, color: "#888", width: 32, height: 32, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
               </div>
 
               <div style={{ display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
-                <a href={buildUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  MANN-FILTER Katalogda Gör ↗
-                </a>
-                <div style={{ padding: "7px 12px", background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 7, fontSize: 12, color: "#999" }}>
+                {isFiltronModal ? (
+                  <a href={buildFiltronUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "linear-gradient(135deg,#ff6b00,#ff9500)", color: "#fff", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    Filtron'da Ara ↗
+                  </a>
+                ) : (
+                  <a href={buildUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                    MANN-FILTER Katalogda Gör ↗
+                  </a>
+                )}
+                <div style={{ padding: "7px 12px", background: isFiltronModal ? "#1a0e00" : "#1a1a1a", border: `1px solid ${isFiltronModal ? "#2a1500" : "#2a2a2a"}`, borderRadius: 7, fontSize: 12, color: "#999" }}>
                   {modalVehicles.length} araç-motor eşleşmesi · {modalGrouped.length} marka
                 </div>
               </div>
@@ -237,17 +460,17 @@ export default function App() {
             <div style={{ overflowY: "auto", padding: "12px 22px 22px", flex: 1 }}>
               {modalGrouped.map(([makeName, vehicles]) => (
                 <div key={makeName} style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#78a22f", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, padding: "6px 0", borderBottom: "1px solid #1e1e1e", position: "sticky", top: 0, background: "#131313", zIndex: 1 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: isFiltronModal ? "#ff9500" : "#78a22f", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, padding: "6px 0", borderBottom: `1px solid ${isFiltronModal ? "#1e0a00" : "#1e1e1e"}`, position: "sticky", top: 0, background: isFiltronModal ? "#110a00" : "#131313", zIndex: 1 }}>
                     {makeName} <span style={{ color: "#555", fontWeight: 400 }}>({vehicles.length})</span>
                   </div>
                   {vehicles.map((v, vi) => (
-                    <div key={vi} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 6, marginBottom: 2, background: vi % 2 === 0 ? "#0e0e0e" : "transparent" }}>
+                    <div key={vi} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 6, marginBottom: 2, background: vi % 2 === 0 ? (isFiltronModal ? "#0e0700" : "#0e0e0e") : "transparent" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{v.model}</div>
                         <div style={{ fontSize: 11, color: "#777" }}>{v.engine}</div>
                       </div>
                       {v.ps && v.kw && (
-                        <div style={{ fontSize: 10, color: "#78a22f", background: "#1a2a10", padding: "2px 8px", borderRadius: 10, whiteSpace: "nowrap", flexShrink: 0 }}>
+                        <div style={{ fontSize: 10, color: isFiltronModal ? "#ff9500" : "#78a22f", background: isFiltronModal ? "#1a0800" : "#1a2a10", padding: "2px 8px", borderRadius: 10, whiteSpace: "nowrap", flexShrink: 0 }}>
                           {v.ps} PS / {v.kw} kW
                         </div>
                       )}
@@ -261,7 +484,8 @@ export default function App() {
       )}
 
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "14px 20px", textAlign: "center", fontSize: 10, color: "#444" }}>
-        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır. Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
+        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır.
+        Filtron muadilleri ayrıca gösterilmektedir. Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
       </footer>
     </div>
   );
