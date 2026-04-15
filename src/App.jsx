@@ -1,20 +1,28 @@
 import { useState, useMemo, useRef } from "react";
 
 import DB from './mann-filter-data.json';
-import FILTRON_RAW from './filtron.json';
+import PRODUCTS_RAW from './products.json';
 
-// filtron.json: array of { mann, filtron } OR single object — normalize to map
+// filtron.json: array of { mann, filtron, mann_url? } OR single object — normalize to map
 const FILTRON_MAP = (() => {
-  const arr = Array.isArray(FILTRON_RAW) ? FILTRON_RAW : [FILTRON_RAW];
+  const arr = Array.isArray(PRODUCTS_RAW) ? PRODUCTS_RAW : [PRODUCTS_RAW];
   const map = {};
   arr.forEach(({ mann, filtron }) => { if (mann && filtron) map[mann.trim()] = filtron.trim(); });
+  return map;
+})();
+
+// mann_url map: mann code -> image url
+const MANN_IMG_MAP = (() => {
+  const arr = Array.isArray(PRODUCTS_RAW) ? PRODUCTS_RAW : [PRODUCTS_RAW];
+  const map = {};
+  arr.forEach(({ mann, mann_url }) => { if (mann && mann_url) map[mann.trim()] = mann_url.trim(); });
   return map;
 })();
 
 const FILTER_TYPES = {
   oil:   { label: "Yağ Filtresi",   icon: "🛢️", color: "#f59e0b" },
   air:   { label: "Hava Filtresi",  icon: "💨", color: "#3b82f6" },
-  cabin: { label: "Kabin Filtresi", icon: "🌿", color: "#10b981" },
+  cabin: { label: "Polen Filtresi", icon: "🌿", color: "#10b981" },
   fuel:  { label: "Yakıt Filtresi", icon: "⛽", color: "#ef4444" },
 };
 
@@ -58,12 +66,32 @@ function getFilterType(code) {
 function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
   const [hovered, setHovered] = useState(false);
   const info = FILTER_TYPES[filterKey];
+  const imgUrl = MANN_IMG_MAP[mannCode];
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Hover image popup */}
+      {hovered && imgUrl && (
+        <div style={{
+          position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+          background: "#1a1a1a", border: "1px solid #333", borderRadius: 10,
+          padding: 8, zIndex: 50, boxShadow: "0 8px 32px rgba(0,0,0,.6)",
+          pointerEvents: "none", minWidth: 160
+        }}>
+          <img src={imgUrl} alt={filtronCode} style={{ width: 160, height: "auto", borderRadius: 6, display: "block" }} />
+          <div style={{ fontSize: 9, color: "#666", textAlign: "center", marginTop: 4 }}>MANN {mannCode}</div>
+          <div style={{
+            position: "absolute", bottom: -6, left: "50%",
+            width: 12, height: 12, background: "#1a1a1a", border: "1px solid #333",
+            borderTop: "none", borderLeft: "none",
+            transform: "translateX(-50%) rotate(45deg)"
+          }} />
+        </div>
+      )}
       <div
         onClick={() => onOpenModal(filtronCode, filterKey)}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
         style={{
           background: "#0e0e0e",
           border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
@@ -123,12 +151,33 @@ function MannCard({ code, filterKey, onOpenModal }) {
   const [hovered, setHovered] = useState(false);
   const info = FILTER_TYPES[filterKey];
   const filtronCode = FILTRON_MAP[code];
+  const imgUrl = MANN_IMG_MAP[code];
   return (
     <div style={{ display: "contents" }}>
-      <div
-        onClick={() => onOpenModal(code, filterKey)}
+      <div style={{ position: "relative" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+      >
+        {/* Hover image popup */}
+        {hovered && imgUrl && (
+          <div style={{
+            position: "absolute", bottom: "calc(100% + 8px)", left: "50%", transform: "translateX(-50%)",
+            background: "#1a1a1a", border: "1px solid #333", borderRadius: 10,
+            padding: 8, zIndex: 50, boxShadow: "0 8px 32px rgba(0,0,0,.6)",
+            pointerEvents: "none", minWidth: 160
+          }}>
+            <img src={imgUrl} alt={code} style={{ width: 160, height: "auto", borderRadius: 6, display: "block" }} />
+            <div style={{ fontSize: 9, color: "#666", textAlign: "center", marginTop: 4 }}>{code}</div>
+            <div style={{
+              position: "absolute", bottom: -6, left: "50%",
+              width: 12, height: 12, background: "#1a1a1a", border: "1px solid #333",
+              borderTop: "none", borderLeft: "none",
+              transform: "translateX(-50%) rotate(45deg)"
+            }} />
+          </div>
+        )}
+      <div
+        onClick={() => onOpenModal(code, filterKey)}
         style={{
           background: "#0e0e0e",
           border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
@@ -172,6 +221,7 @@ function MannCard({ code, filterKey, onOpenModal }) {
         <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>
           Detaylar ve uyumlu araçlar →
         </div>
+      </div>
       </div>
 
       {/* Filtron pair card right after */}
@@ -398,16 +448,21 @@ export default function App() {
 
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{
-                    width: 42, height: 42, borderRadius: 10,
-                    background: isFiltronModal ? "#0082c818" : "#78a22f18",
-                    border: `1px solid ${isFiltronModal ? "#0082c830" : "#78a22f30"}`,
-                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22
-                  }}>
-                    {FILTER_TYPES[modalType]?.icon || "🔧"}
+                  <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+                  {(() => {
+                    const mannCode = isFiltronModal
+                      ? Object.entries(FILTRON_MAP).find(([m, f]) => f === modalCode)?.[0]
+                      : modalCode;
+                    const imgUrl = mannCode ? MANN_IMG_MAP[mannCode] : null;
+                    return imgUrl ? (
+                      <div style={{ background: "#1a1a1a", borderRadius: 12, padding: 10, border: "1px solid #2a2a2a", flexShrink: 0 }}>
+                        <img src={imgUrl} alt={modalCode} style={{ maxWidth: 280, width: "100%", height: "auto", borderRadius: 8, display: "block", margin: "0 auto" }} />
+                      </div>
+                    ) : FILTER_TYPES[modalType]?.icon;
+                  })()}
                   </div>
-                  <div>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 4, background: isFiltronModal ? "#0082c818" : "#78a22f18", padding: "3px 10px 3px 8px", borderRadius: 5, border: `1px solid ${isFiltronModal ? "#0082c825" : "#78a22f25"}` }}>
+                  <div style={{ flex: 1, paddingTop: 4 }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 8, background: isFiltronModal ? "#0082c818" : "#78a22f18", padding: "3px 10px 3px 8px", borderRadius: 5, border: `1px solid ${isFiltronModal ? "#0082c825" : "#78a22f25"}` }}>
                       <div style={{ width: 6, height: 6, borderRadius: "50%", background: isFiltronModal ? "#0082c8" : "#78a22f" }} />
                       <span style={{ fontSize: 11, fontWeight: 800, color: isFiltronModal ? "#0082c8" : "#78a22f", letterSpacing: 1.5, textTransform: "uppercase" }}>{isFiltronModal ? "FILTRON" : "MANN"}</span>
                     </div>
