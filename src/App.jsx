@@ -77,32 +77,34 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
           overflow: "hidden"
         }}
       >
-        {/* Filtron badge */}
+        {/* Icon badge top-right */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#0f1a08",
-          borderRadius: "0 8px 0 10px",
-          padding: "3px 8px",
-          fontSize: 8,
-          fontWeight: 800,
-          color: "#0082c8",
-          letterSpacing: 0.5,
-          textTransform: "uppercase",
+          background: "#0082c820",
+          borderRadius: "0 8px 0 12px",
+          padding: "6px 10px",
+          fontSize: 20,
+          lineHeight: 1,
+          border: "1px solid #0082c830",
+          borderTop: "none", borderRight: "none"
         }}>
-          FILTRON
+          {info.icon}
         </div>
         {/* Subtle brand watermark */}
         <div style={{
           position: "absolute", bottom: 4, right: 8,
-          fontSize: 28, opacity: 0.04, fontWeight: 900,
+          fontSize: 28, opacity: 0.08, fontWeight: 900,
           color: "#0082c8", pointerEvents: "none", userSelect: "none"
         }}>F</div>
 
-        <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 6, background: "#0082c818", padding: "2px 8px 2px 6px", borderRadius: 4, border: "1px solid #0082c825" }}>
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#0082c8" }} />
+          <span style={{ fontSize: 9, fontWeight: 800, color: "#0082c8", letterSpacing: 1, textTransform: "uppercase" }}>FILTRON</span>
+        </div>
         <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
           {filtronCode}
         </div>
         <div style={{ fontSize: 9, color: "#3a6b20", marginTop: 2 }}>
@@ -139,26 +141,27 @@ function MannCard({ code, filterKey, onOpenModal }) {
           overflow: "hidden"
         }}
       >
-        {/* MANN badge */}
+        {/* Icon badge top-right */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#0f1a08",
-          borderRadius: "0 8px 0 10px",
-          padding: "3px 8px",
-          fontSize: 8,
-          fontWeight: 800,
-          color: "#78a22f",
-          letterSpacing: 0.5,
-          border: "1px solid #1a2e0a",
+          background: "#78a22f20",
+          borderRadius: "0 8px 0 12px",
+          padding: "6px 10px",
+          fontSize: 20,
+          lineHeight: 1,
+          border: "1px solid #78a22f30",
           borderTop: "none", borderRight: "none"
         }}>
-          MANN
+          {info.icon}
         </div>
-        <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 6, background: "#78a22f18", padding: "2px 8px 2px 6px", borderRadius: 4, border: "1px solid #78a22f25" }}>
+          <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#78a22f" }} />
+          <span style={{ fontSize: 9, fontWeight: 800, color: "#78a22f", letterSpacing: 1, textTransform: "uppercase" }}>MANN</span>
+        </div>
         <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#78a22f", margin: "2px 0" }}>
           {code}
         </div>
         {filtronCode && (
@@ -385,6 +388,7 @@ export default function App() {
           <div onClick={e => e.stopPropagation()} style={{
             background: "#131313",
             border: "1px solid #2a2a2a",
+            borderTop: `3px solid ${isFiltronModal ? "#0082c8" : "#78a22f"}`,
             borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
           }}>
 
@@ -396,16 +400,21 @@ export default function App() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{
                     width: 42, height: 42, borderRadius: 10,
-                    background: (FILTER_TYPES[modalType]?.color || "#78a22f") + "18",
+                    background: isFiltronModal ? "#0082c818" : "#78a22f18",
+                    border: `1px solid ${isFiltronModal ? "#0082c830" : "#78a22f30"}`,
                     display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22
                   }}>
                     {FILTER_TYPES[modalType]?.icon || "🔧"}
                   </div>
                   <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: FILTER_TYPES[modalType]?.color ? FILTER_TYPES[modalType].color + "aa" : "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 4, background: isFiltronModal ? "#0082c818" : "#78a22f18", padding: "3px 10px 3px 8px", borderRadius: 5, border: `1px solid ${isFiltronModal ? "#0082c825" : "#78a22f25"}` }}>
+                      <div style={{ width: 6, height: 6, borderRadius: "50%", background: isFiltronModal ? "#0082c8" : "#78a22f" }} />
+                      <span style={{ fontSize: 11, fontWeight: 800, color: isFiltronModal ? "#0082c8" : "#78a22f", letterSpacing: 1.5, textTransform: "uppercase" }}>{isFiltronModal ? "FILTRON" : "MANN"}</span>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: 1.2 }}>
                       {FILTER_TYPES[modalType]?.label || "Filtre"}
                     </div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: isFiltronModal ? "#0082c8" : (FILTER_TYPES[modalType]?.color || "#78a22f") }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: isFiltronModal ? "#0082c8" : "#78a22f" }}>
                       {modalCode}
                     </div>
                     {isFiltronModal && (() => {
