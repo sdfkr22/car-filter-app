@@ -108,7 +108,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>
           {filtronCode}
         </div>
         <div style={{ fontSize: 9, color: "#3a5a7a", marginTop: 2 }}>
