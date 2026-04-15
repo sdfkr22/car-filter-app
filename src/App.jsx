@@ -63,7 +63,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
       {/* Connector line */}
       <div style={{
         position: "absolute", top: "50%", left: -12, width: 12, height: 2,
-        background: "linear-gradient(90deg,#ff6b0033,#ff6b00)",
+        background: "linear-gradient(90deg,#0082c833,#0082c8)",
         transform: "translateY(-50%)", zIndex: 0
       }} />
       <div
@@ -71,16 +71,14 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          background: hovered
-            ? "linear-gradient(135deg,#1a0e00,#2a1500)"
-            : "linear-gradient(135deg,#130c00,#1e1000)",
-          border: `1px solid ${hovered ? "#ff6b00" : "#3a2200"}`,
+          background: "#0e0e0e",
+          border: `1px solid ${hovered ? "#0082c8" : "#1e1e1e"}`,
           borderRadius: 8,
           padding: 14,
           cursor: "pointer",
           transition: "all .2s",
           transform: hovered ? "translateY(-1px)" : "none",
-          boxShadow: hovered ? "0 4px 16px rgba(255,107,0,0.2)" : "none",
+          boxShadow: hovered ? "0 4px 16px rgba(0,130,200,0.15)" : "none",
           position: "relative",
           overflow: "hidden"
         }}
@@ -88,7 +86,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         {/* Filtron badge */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "linear-gradient(135deg,#ff6b00,#ff9500)",
+          background: "#0082c8",
           borderRadius: "0 8px 0 10px",
           padding: "3px 8px",
           fontSize: 8,
@@ -103,20 +101,20 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         <div style={{
           position: "absolute", bottom: 4, right: 8,
           fontSize: 28, opacity: 0.04, fontWeight: 900,
-          color: "#ff6b00", pointerEvents: "none", userSelect: "none"
+          color: "#0082c8", pointerEvents: "none", userSelect: "none"
         }}>F</div>
 
         <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "#7a4a00", textTransform: "uppercase", letterSpacing: 1 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#ff9500", margin: "2px 0" }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
           {filtronCode}
         </div>
-        <div style={{ fontSize: 9, color: "#7a4a00", marginTop: 2 }}>
+        <div style={{ fontSize: 9, color: "#3a5a7a", marginTop: 2 }}>
           MANN <span style={{ color: "#555" }}>{mannCode}</span> muadili
         </div>
-        <div style={{ fontSize: 10, color: "#7a4a00", marginTop: 4 }}>
+        <div style={{ fontSize: 10, color: "#555", marginTop: 4 }}>
           Detaylar ve uyumlu araçlar →
         </div>
       </div>
