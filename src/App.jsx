@@ -3,11 +3,11 @@ import { useState, useMemo, useRef } from "react";
 import DB from './mann-filter-data.json';
 import FILTRON_RAW from './filtron.json';
 
-// filtron.json: array of { man, filtron } OR single object — normalize to map
+// filtron.json: array of { mann, filtron } OR single object — normalize to map
 const FILTRON_MAP = (() => {
   const arr = Array.isArray(FILTRON_RAW) ? FILTRON_RAW : [FILTRON_RAW];
   const map = {};
-  arr.forEach(({ man, filtron }) => { if (man && filtron) map[man.trim()] = filtron.trim(); });
+  arr.forEach(({ mann, filtron }) => { if (mann && filtron) map[mann.trim()] = filtron.trim(); });
   return map;
 })();
 
@@ -66,7 +66,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         onMouseLeave={() => setHovered(false)}
         style={{
           background: "#0e0e0e",
-          border: `1px solid ${hovered ? "#0082c8" : "#1e1e1e"}`,
+          border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
           borderRadius: 8,
           padding: 14,
           cursor: "pointer",
@@ -87,7 +87,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
           fontWeight: 800,
           color: "#0082c8",
           letterSpacing: 0.5,
-          textTransform: "uppercase"
+          textTransform: "uppercase",
         }}>
           FILTRON
         </div>
@@ -105,10 +105,10 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         <div style={{ fontSize: 15, fontWeight: 700, color: info.color, margin: "2px 0" }}>
           {filtronCode}
         </div>
-        <div style={{ fontSize: 9, color: "#3a5a7a", marginTop: 2 }}>
+        <div style={{ fontSize: 9, color: "#3a6b20", marginTop: 2 }}>
           MANN <span style={{ color: "#555" }}>{mannCode}</span> muadili
         </div>
-        <div style={{ fontSize: 10, color: "#555", marginTop: 4 }}>
+        <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>
           Detaylar ve uyumlu araçlar →
         </div>
       </div>
@@ -162,7 +162,7 @@ function MannCard({ code, filterKey, onOpenModal }) {
           {code}
         </div>
         {filtronCode && (
-          <div style={{ fontSize: 9, color: "#3a6b20", marginTop: 2 }}>
+          <div style={{ fontSize: 9, color: "#3a5a7a", marginTop: 2 }}>
             ✓ Filtron muadili mevcut
           </div>
         )}
