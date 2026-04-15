@@ -105,7 +105,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         }}>F</div>
 
         <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, color: info.color, textTransform: "uppercase", letterSpacing: 1, opacity: 0.85 }}>
           {info.label}
         </div>
         <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
@@ -148,14 +148,14 @@ function MannCard({ code, filterKey, onOpenModal }) {
         {/* MANN badge */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#1a1a1a",
+          background: "#0f1a08",
           borderRadius: "0 8px 0 10px",
           padding: "3px 8px",
           fontSize: 8,
           fontWeight: 800,
-          color: "#555",
+          color: "#78a22f",
           letterSpacing: 0.5,
-          border: "1px solid #222",
+          border: "1px solid #1a2e0a",
           borderTop: "none", borderRight: "none"
         }}>
           MANN
@@ -255,8 +255,8 @@ export default function App() {
         <h1 style={{ fontSize: "clamp(22px,4vw,34px)", fontWeight: 700, marginBottom: 6 }}>Aracınıza Uygun <span style={{ color: "#78a22f" }}>Filtreyi</span> Bulun</h1>
         <p style={{ color: "#777", fontSize: 13, maxWidth: 520, margin: "0 auto" }}>
           MANN-FILTER 2024-26 kataloğu — {DB.length} araç-motor eşleşmesi · {makes.length} marka
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 4, marginLeft: 8, color: "#ff9500", fontSize: 11 }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ff6b00", display: "inline-block" }}></span>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 4, marginLeft: 8, color: "#0082c8", fontSize: 11 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0082c8", display: "inline-block" }}></span>
             Filtron muadilleri dahil
           </span>
         </p>
@@ -290,8 +290,8 @@ export default function App() {
                       <div style={{ width: 8, height: 8, background: "#1a1a1a", border: "1px solid #444", borderRadius: 2 }} />
                       MANN-FILTER
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#7a4a00" }}>
-                      <div style={{ width: 8, height: 8, background: "linear-gradient(135deg,#ff6b00,#ff9500)", borderRadius: 2 }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#3a6080" }}>
+                      <div style={{ width: 8, height: 8, background: "#0082c8", borderRadius: 2 }} />
                       FILTRON muadili
                     </div>
                   </div>
@@ -389,23 +389,23 @@ export default function App() {
       {modalCode && (
         <div onClick={closeModal} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.7)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
           <div onClick={e => e.stopPropagation()} style={{
-            background: isFiltronModal ? "#110a00" : "#131313",
-            border: `1px solid ${isFiltronModal ? "#3a2200" : "#2a2a2a"}`,
+            background: "#131313",
+            border: "1px solid #2a2a2a",
             borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
           }}>
 
             {/* Modal Header */}
-            <div style={{ padding: "20px 22px 16px", borderBottom: `1px solid ${isFiltronModal ? "#2a1500" : "#222"}`, flexShrink: 0 }}>
+            <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
               {/* Brand banner for Filtron */}
               {isFiltronModal && (
                 <div style={{
-                  background: "linear-gradient(135deg,#ff6b00,#ff9500)",
+                  background: "#0082c8",
                   margin: "-20px -22px 16px",
                   padding: "8px 22px",
                   display: "flex", alignItems: "center", gap: 8
                 }}>
                   <span style={{ fontWeight: 900, fontSize: 14, color: "#fff", letterSpacing: 1 }}>FILTRON</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)" }}>— MANN-FILTER Muadili</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.75)" }}>— MANN-FILTER Muadili</span>
                 </div>
               )}
 
@@ -413,16 +413,16 @@ export default function App() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{
                     width: 42, height: 42, borderRadius: 10,
-                    background: isFiltronModal ? "#ff6b0018" : (FILTER_TYPES[modalType]?.color || "#78a22f") + "18",
+                    background: (FILTER_TYPES[modalType]?.color || "#78a22f") + "18",
                     display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22
                   }}>
                     {FILTER_TYPES[modalType]?.icon || "🔧"}
                   </div>
                   <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, color: isFiltronModal ? "#7a4a00" : "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+                    <div style={{ fontSize: 10, fontWeight: 600, color: FILTER_TYPES[modalType]?.color ? FILTER_TYPES[modalType].color + "aa" : "#555", textTransform: "uppercase", letterSpacing: 1 }}>
                       {FILTER_TYPES[modalType]?.label || "Filtre"}
                     </div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: isFiltronModal ? "#ff9500" : (FILTER_TYPES[modalType]?.color || "#78a22f") }}>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: isFiltronModal ? "#0082c8" : (FILTER_TYPES[modalType]?.color || "#78a22f") }}>
                       {modalCode}
                     </div>
                     {isFiltronModal && (() => {
@@ -435,12 +435,12 @@ export default function App() {
                     })()}
                   </div>
                 </div>
-                <button onClick={closeModal} style={{ background: isFiltronModal ? "#1a0e00" : "#1a1a1a", border: `1px solid ${isFiltronModal ? "#3a2200" : "#333"}`, borderRadius: 8, color: "#888", width: 32, height: 32, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
+                <button onClick={closeModal} style={{ background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#888", width: 32, height: 32, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>✕</button>
               </div>
 
               <div style={{ display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
                 {isFiltronModal ? (
-                  <a href={buildFiltronUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "linear-gradient(135deg,#ff6b00,#ff9500)", color: "#fff", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <a href={buildFiltronUrl(modalCode)} target="_blank" rel="noopener" style={{ padding: "7px 14px", background: "#0082c8", color: "#fff", border: "none", borderRadius: 7, fontWeight: 700, fontSize: 12, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
                     Filtron'da Ara ↗
                   </a>
                 ) : (
@@ -448,7 +448,7 @@ export default function App() {
                     MANN-FILTER Katalogda Gör ↗
                   </a>
                 )}
-                <div style={{ padding: "7px 12px", background: isFiltronModal ? "#1a0e00" : "#1a1a1a", border: `1px solid ${isFiltronModal ? "#2a1500" : "#2a2a2a"}`, borderRadius: 7, fontSize: 12, color: "#999" }}>
+                <div style={{ padding: "7px 12px", background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 7, fontSize: 12, color: "#999" }}>
                   {modalVehicles.length} araç-motor eşleşmesi · {modalGrouped.length} marka
                 </div>
               </div>
@@ -458,17 +458,17 @@ export default function App() {
             <div style={{ overflowY: "auto", padding: "12px 22px 22px", flex: 1 }}>
               {modalGrouped.map(([makeName, vehicles]) => (
                 <div key={makeName} style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: isFiltronModal ? "#ff9500" : "#78a22f", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, padding: "6px 0", borderBottom: `1px solid ${isFiltronModal ? "#1e0a00" : "#1e1e1e"}`, position: "sticky", top: 0, background: isFiltronModal ? "#110a00" : "#131313", zIndex: 1 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: isFiltronModal ? "#0082c8" : "#78a22f", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, padding: "6px 0", borderBottom: "1px solid #1e1e1e", position: "sticky", top: 0, background: "#131313", zIndex: 1 }}>
                     {makeName} <span style={{ color: "#555", fontWeight: 400 }}>({vehicles.length})</span>
                   </div>
                   {vehicles.map((v, vi) => (
-                    <div key={vi} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 6, marginBottom: 2, background: vi % 2 === 0 ? (isFiltronModal ? "#0e0700" : "#0e0e0e") : "transparent" }}>
+                    <div key={vi} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", borderRadius: 6, marginBottom: 2, background: vi % 2 === 0 ? "#0e0e0e" : "transparent" }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{v.model}</div>
                         <div style={{ fontSize: 11, color: "#777" }}>{v.engine}</div>
                       </div>
                       {v.ps && v.kw && (
-                        <div style={{ fontSize: 10, color: isFiltronModal ? "#ff9500" : "#78a22f", background: isFiltronModal ? "#1a0800" : "#1a2a10", padding: "2px 8px", borderRadius: 10, whiteSpace: "nowrap", flexShrink: 0 }}>
+                        <div style={{ fontSize: 10, color: isFiltronModal ? "#0082c8" : "#78a22f", background: isFiltronModal ? "#0d1e30" : "#1a2a10", padding: "2px 8px", borderRadius: 10, whiteSpace: "nowrap", flexShrink: 0 }}>
                           {v.ps} PS / {v.kw} kW
                         </div>
                       )}
