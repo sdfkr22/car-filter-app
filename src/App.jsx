@@ -105,7 +105,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         }}>F</div>
 
         <div style={{ fontSize: 18, marginBottom: 4 }}>{info.icon}</div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: info.color, textTransform: "uppercase", letterSpacing: 1, opacity: 0.85 }}>
+        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
         <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
@@ -396,18 +396,7 @@ export default function App() {
 
             {/* Modal Header */}
             <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
-              {/* Brand banner for Filtron */}
-              {isFiltronModal && (
-                <div style={{
-                  background: "#0082c8",
-                  margin: "-20px -22px 16px",
-                  padding: "8px 22px",
-                  display: "flex", alignItems: "center", gap: 8
-                }}>
-                  <span style={{ fontWeight: 900, fontSize: 14, color: "#fff", letterSpacing: 1 }}>FILTRON</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.75)" }}>— MANN-FILTER Muadili</span>
-                </div>
-              )}
+              
 
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
