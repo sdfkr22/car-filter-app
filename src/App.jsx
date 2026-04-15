@@ -394,6 +394,21 @@ export default function App() {
             borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
           }}>
 
+            {/* Modal Header */}
+            <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
+              {/* Brand banner for Filtron */}
+              {isFiltronModal && (
+                <div style={{
+                  background: "#0082c8",
+                  margin: "-20px -22px 16px",
+                  padding: "8px 22px",
+                  display: "flex", alignItems: "center", gap: 8
+                }}>
+                  <span style={{ fontWeight: 900, fontSize: 14, color: "#fff", letterSpacing: 1 }}>FILTRON</span>
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.75)" }}>— MANN-FILTER Muadili</span>
+                </div>
+              )}
+
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <div style={{
