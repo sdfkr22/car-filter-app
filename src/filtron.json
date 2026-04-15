@@ -1,6 +1,710 @@
 [
  {
-   "man": "C 14 130",
-   "filtron": "AK370/4"
+  "mann": "C 12 133",
+  "filtron": "AK 218/4"
+ },
+ {
+  "mann": "C 12 133/1",
+  "filtron": "AK 218/5"
+ },
+ {
+  "mann": "C 14 114",
+  "filtron": "AK 218/1"
+ },
+ {
+  "mann": "C 15 005",
+  "filtron": "AR 234/5"
+ },
+ {
+  "mann": "C 17 337/2",
+  "filtron": "AR 285"
+ },
+ {
+  "mann": "C 22 028",
+  "filtron": "AK 381"
+ },
+ {
+  "mann": "C 22 035",
+  "filtron": "AP 062/2"
+ },
+ {
+  "mann": "C 24 006",
+  "filtron": "AP 022/4"
+ },
+ {
+  "mann": "C 24 011",
+  "filtron": "AP 120/2"
+ },
+ {
+  "mann": "C 28 004",
+  "filtron": "AP 035/7"
+ },
+ {
+  "mann": "C 28 037",
+  "filtron": "AP 028/9"
+ },
+ {
+  "mann": "C 29 015",
+  "filtron": "AP 183/4"
+ },
+ {
+  "mann": "C 29 035-2",
+  "filtron": "AK 381/1-2x"
+ },
+ {
+  "mann": "C 30 135",
+  "filtron": "AP 032/9"
+ },
+ {
+  "mann": "C 3210",
+  "filtron": "AP 035/4"
+ },
+ {
+  "mann": "C 34 002",
+  "filtron": "AP 158/6"
+ },
+ {
+  "mann": "C 35 003",
+  "filtron": "AK 218/8"
+ },
+ {
+  "mann": "C 35 005",
+  "filtron": "AK 218/9"
+ },
+ {
+  "mann": "C 35 012",
+  "filtron": "AP 119/7"
+ },
+ {
+  "mann": "C 36 016",
+  "filtron": "AP 119/3"
+ },
+ {
+  "mann": "C 3698/3-2",
+  "filtron": "AP 118/3-2x"
+ },
+ {
+  "mann": "C 38 145",
+  "filtron": "AP 118/9"
+ },
+ {
+  "mann": "C 40 001",
+  "filtron": "AP 085/2"
+ },
+ {
+  "mann": "C 40 002",
+  "filtron": "AP 085/1"
+ },
+ {
+  "mann": "C 43 139",
+  "filtron": "AP 035/6"
+ },
+ {
+  "mann": "C 45 004",
+  "filtron": "AP 035/9"
+ },
+ {
+  "mann": "C 51 001",
+  "filtron": "AK 362/7"
+ },
+ {
+  "mann": "C 1036/1",
+  "filtron": "AR 364"
+ },
+ {
+  "mann": "C 1036/2",
+  "filtron": "AR 364/1"
+ },
+ {
+  "mann": "C 1041",
+  "filtron": "AR 364"
+ },
+ {
+  "mann": "C 11 007",
+  "filtron": "AE 358/2"
+ },
+ {
+  "mann": "C 11 120",
+  "filtron": "AR 327/2"
+ },
+ {
+  "mann": "C 1134/1",
+  "filtron": "AR 211"
+ },
+ {
+  "mann": "C 1145/6",
+  "filtron": "AR 349"
+ },
+ {
+  "mann": "C 1184",
+  "filtron": "AR 314"
+ },
+ {
+  "mann": "C 1189",
+  "filtron": "AR 234/3"
+ },
+ {
+  "mann": "C 12 003",
+  "filtron": "AK 372"
+ },
+ {
+  "mann": "C 12 104",
+  "filtron": "AR 234/2"
+ },
+ {
+  "mann": "C 12 107",
+  "filtron": "AR 265/1"
+ },
+ {
+  "mann": "C 12 107/1",
+  "filtron": "AR 265/1"
+ },
+ {
+  "mann": "C 12 133",
+  "filtron": "AK 218/4"
+ },
+ {
+  "mann": "C 12 178",
+  "filtron": "AK 218/3"
+ },
+ {
+  "mann": "C 12 178/1",
+  "filtron": "AK 218/2"
+ },
+ {
+  "mann": "C 12 178/2",
+  "filtron": "AK 218/6"
+ },
+ {
+  "mann": "C 1286/1",
+  "filtron": "AR 314/1"
+ },
+ {
+  "mann": "C 1287",
+  "filtron": "AR 373"
+ },
+ {
+  "mann": "C 1361",
+  "filtron": "AK 362/4"
+ },
+ {
+  "mann": "C 1370",
+  "filtron": "AK 362/3"
+ },
+ {
+  "mann": "C 1381",
+  "filtron": "AR 327/1"
+ },
+ {
+  "mann": "C 14 004",
+  "filtron": "AR 234/4"
+ },
+ {
+  "mann": "C 14 006",
+  "filtron": "AK 218/7"
+ },
+ {
+  "mann": "C 14 011",
+  "filtron": "AR 304/3"
+ },
+ {
+  "mann": "C 14 114",
+  "filtron": "AK 218/1"
+ },
+ {
+  "mann": "C 14 130",
+  "filtron": "AK 370/4"
+ },
+ {
+  "mann": "C 14 130/1",
+  "filtron": "AK 370/5"
+ },
+ {
+  "mann": "C 14 140",
+  "filtron": "AM 433/2"
+ },
+ {
+  "mann": "C 14 159",
+  "filtron": "AM 454"
+ },
+ {
+  "mann": "C 14 176",
+  "filtron": "AR 304/1"
+ },
+ {
+  "mann": "C 14 178",
+  "filtron": "AR 366/4"
+ },
+ {
+  "mann": "C 14 179x",
+  "filtron": "AM 430"
+ },
+ {
+  "mann": "C 14 179/2",
+  "filtron": "AM 441"
+ },
+ {
+  "mann": "C 1430",
+  "filtron": "AR 246/2"
+ },
+ {
+  "mann": "C 1460",
+  "filtron": "AE 311"
+ },
+ {
+  "mann": "C 1468",
+  "filtron": "AK 246"
+ },
+ {
+  "mann": "C 1472",
+  "filtron": "AE 311/1"
+ },
+ {
+  "mann": "C 1480",
+  "filtron": "AE 335"
+ },
+ {
+  "mann": "C 15 005",
+  "filtron": "AR 234/5"
+ },
+ {
+  "mann": "C 15 007",
+  "filtron": "AR 234/6"
+ },
+ {
+  "mann": "C 15 008",
+  "filtron": "AK 370/2"
+ },
+ {
+  "mann": "C 15 010",
+  "filtron": "AR 371/6"
+ },
+ {
+  "mann": "C 15 105/1",
+  "filtron": "AK 362"
+ },
+ {
+  "mann": "C 15 143/1",
+  "filtron": "AK 362/1"
+ },
+ {
+  "mann": "C 15 163/1",
+  "filtron": "C 15 163/1"
+ },
+ {
+  "mann": "C 15 165/7",
+  "filtron": "AM 454/1"
+ },
+ {
+  "mann": "C 1577/1",
+  "filtron": "AR 286"
+ },
+ {
+  "mann": "C 1586",
+  "filtron": "AR 318/1"
+ },
+ {
+  "mann": "C 1589/3",
+  "filtron": "AR 348/1"
+ },
+ {
+  "mann": "C 16 005",
+  "filtron": "AR 371/7"
+ },
+ {
+  "mann": "C 16 012",
+  "filtron": "AK 375/1"
+ },
+ {
+  "mann": "C 16 114/2x",
+  "filtron": "AK 371/4"
+ },
+ {
+  "mann": "C 16 114/3",
+  "filtron": "AK 371/5"
+ },
+ {
+  "mann": "C 16 118",
+  "filtron": "AR 371/2"
+ },
+ {
+  "mann": "C 16 134/2",
+  "filtron": "AK 372/1"
+ },
+ {
+  "mann": "C 16 136",
+  "filtron": "AR 351"
+ },
+ {
+  "mann": "C 16 142/2",
+  "filtron": "AR 372/3"
+ },
+ {
+  "mann": "C 16 148",
+  "filtron": "AM 468/4"
+ },
+ {
+  "mann": "C 1618",
+  "filtron": "AP 124"
+ },
+ {
+  "mann": "C 1652",
+  "filtron": "AR 371"
+ },
+ {
+  "mann": "C 1652/1",
+  "filtron": "AR 371/1"
+ },
+ {
+  "mann": "C 17 006",
+  "filtron": "AP 151/5"
+ },
+ {
+  "mann": "C 17 008",
+  "filtron": "AP 178/3"
+ },
+ {
+  "mann": "C 17 008",
+  "filtron": "AP 178/3"
+ },
+ {
+  "mann": "C 17 009",
+  "filtron": "AK 371/8"
+ },
+ {
+  "mann": "C 17 010",
+  "filtron": "AK 376/2"
+ },
+ {
+  "mann": "C 17 011",
+  "filtron": "AK 376"
+ },
+ {
+  "mann": "C 17 012/1",
+  "filtron": "AK 370/3"
+ },
+ {
+  "mann": "C 17 013",
+  "filtron": "AK 376/1"
+ },
+ {
+  "mann": "C 17 014",
+  "filtron": "AK 376/4"
+ },
+ {
+  "mann": "C 17 016",
+  "filtron": "AP 106/5"
+ },
+ {
+  "mann": "C 17 023",
+  "filtron": "AK 376/3"
+ },
+ {
+  "mann": "C 17 129",
+  "filtron": "AR 263"
+ },
+ {
+  "mann": "C 17 137x",
+  "filtron": "AR 371/3"
+ },
+ {
+  "mann": "C 17 137/1",
+  "filtron": "AR 371/3"
+ },
+ {
+  "mann": "C 17 237",
+  "filtron": "AR 316/1"
+ },
+ {
+  "mann": "C 17 237/1",
+  "filtron": "AR 316/2"
+ },
+ {
+  "mann": "C 17 278",
+  "filtron": "AR 316"
+ },
+ {
+  "mann": "C 17 278",
+  "filtron": "AR 316"
+ },
+ {
+  "mann": "C 17 337/2",
+  "filtron": "AR 285"
+ },
+ {
+  "mann": "C 1724",
+  "filtron": "AP 106/3"
+ },
+ {
+  "mann": "C 1760",
+  "filtron": "AR 247"
+ },
+ {
+  "mann": "C 1760/1",
+  "filtron": "AR 308"
+ },
+ {
+  "mann": "C 18 003",
+  "filtron": "AE 348/3"
+ },
+ {
+  "mann": "C 18 004",
+  "filtron": "AP 106/4"
+ },
+ {
+  "mann": "C 18 006",
+  "filtron": "AM 454/3"
+ },
+ {
+  "mann": "C 18 021",
+  "filtron": "AP 178/6"
+ },
+ {
+  "mann": "C 18 024",
+  "filtron": "AP 178/6"
+ },
+ {
+  "mann": "C 18 114",
+  "filtron": "AK 362/5"
+ },
+ {
+  "mann": "C 18 121",
+  "filtron": "AR 274"
+ },
+ {
+  "mann": "C 18 143",
+  "filtron": "AR 366/2"
+ },
+ {
+  "mann": "C 18 149/1",
+  "filtron": "AM 475/2"
+ },
+ {
+  "mann": "C 1832/1",
+  "filtron": "AP 040"
+ },
+ {
+  "mann": "C 1858/2",
+  "filtron": "AP 4007"
+ },
+ {
+  "mann": "C 1880",
+  "filtron": "AP 190/5"
+ },
+ {
+  "mann": "C 1882",
+  "filtron": "AK 362/2"
+ },
+ {
+  "mann": "C 19 010",
+  "filtron": "AP 103/2"
+ },
+ {
+  "mann": "C 1923",
+  "filtron": "AP 190/7"
+ },
+ {
+  "mann": "C 1932",
+  "filtron": "AP 133/2"
+ },
+ {
+  "mann": "C 1955-2",
+  "filtron": "AP 149/2-2x"
+ },
+ {
+  "mann": "C 1980",
+  "filtron": "AM 469"
+ },
+ {
+  "mann": "C 1995",
+  "filtron": "AP 130/4"
+ },
+ {
+  "mann": "C 20 003",
+  "filtron": "AP 104/6"
+ },
+ {
+  "mann": "C 20 014",
+  "filtron": "AP 103/3"
+ },
+ {
+  "mann": "C 20 016",
+  "filtron": "AP 186/5"
+ },
+ {
+  "mann": "C 20 017",
+  "filtron": "AP 071/5"
+ },
+ {
+  "mann": "C 20 029",
+  "filtron": "AP 154/6"
+ },
+ {
+  "mann": "C 20 033",
+  "filtron": "AP 106/6"
+ },
+ {
+  "mann": "C 20 106",
+  "filtron": "AP 072/1"
+ },
+ {
+  "mann": "C 20 106/1",
+  "filtron": "AP 072/2"
+ },
+ {
+  "mann": "C 20 106/4",
+  "filtron": "AP 072/1"
+ },
+ {
+  "mann": "C 20 906",
+  "filtron": "AP 124/7"
+ },
+ {
+  "mann": "C 2029",
+  "filtron": "AP 177/7"
+ },
+ {
+  "mann": "C 2030",
+  "filtron": "AP 185/8"
+ },
+ {
+  "mann": "C 2050",
+  "filtron": "AP 150/1"
+ },
+ {
+  "mann": "C 2074",
+  "filtron": "AP 176/3"
+ },
+ {
+  "mann": "C 21 001",
+  "filtron": "AP 034/8"
+ },
+ {
+  "mann": "C 21 002",
+  "filtron": "AP 022/7"
+ },
+ {
+  "mann": "C 21 005",
+  "filtron": "AP 071/3"
+ },
+ {
+  "mann": "C 21 014",
+  "filtron": "AP 139/7"
+ },
+ {
+  "mann": "C 21 020",
+  "filtron": "AP 119/1"
+ },
+ {
+  "mann": "C 21 025",
+  "filtron": "AP 133/7"
+ },
+ {
+  "mann": "C 21 102",
+  "filtron": "AP 074/7"
+ },
+ {
+  "mann": "C 21 104/2",
+  "filtron": "AP 080/10"
+ },
+ {
+  "mann": "C 21 106",
+  "filtron": "AP 098/3"
+ },
+ {
+  "mann": "C 21 116/1",
+  "filtron": "AP 080/7"
+ },
+ {
+  "mann": "C 21 136/1",
+  "filtron": "AP 072/4"
+ },
+ {
+  "mann": "C 2119",
+  "filtron": "AP 082/4"
+ },
+ {
+  "mann": "C 2120/2",
+  "filtron": "AR 213"
+ },
+ {
+  "mann": "C 2129",
+  "filtron": "AP 071/1"
+ },
+ {
+  "mann": "C 2136/1",
+  "filtron": "AP 175"
+ },
+ {
+  "mann": "C 2159",
+  "filtron": "AP 080/2"
+ },
+ {
+  "mann": "C 2192",
+  "filtron": "AP 080/4"
+ },
+ {
+  "mann": "C 22 007",
+  "filtron": "AP 192/2"
+ },
+ {
+  "mann": "C 22 009",
+  "filtron": "AP 170/3"
+ },
+ {
+  "mann": "C 22 013",
+  "filtron": "AM 352/2"
+ },
+ {
+  "mann": "C 22 014",
+  "filtron": "AP 135/9"
+ },
+ {
+  "mann": "C 22 015",
+  "filtron": "AP 122/5"
+ },
+ {
+  "mann": "C 22 016",
+  "filtron": "AP 022/6"
+ },
+ {
+  "mann": "C 22 018",
+  "filtron": "AP 026/4"
+ },
+ {
+  "mann": "C 22 020",
+  "filtron": "AP 034/5"
+ },
+ {
+  "mann": "C 22 024",
+  "filtron": "AR 307/3"
+ },
+ {
+  "mann": "C 22 026",
+  "filtron": "AP 135/8"
+ },
+ {
+  "mann": "C 22 028",
+  "filtron": "AK 381"
+ },
+ {
+  "mann": "C 22 029",
+  "filtron": "AP 003/10"
+ },
+ {
+  "mann": "C 22 031",
+  "filtron": "AP 151/6"
+ },
+ {
+  "mann": "C 22 033/1",
+  "filtron": "AP 133/6"
+ },
+ {
+  "mann": "C 22 035",
+  "filtron": "AP 062/2"
+ },
+ {
+  "mann": "C 22 038",
+  "filtron": "AP 121/4"
  }
 ]

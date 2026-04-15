@@ -3799,7 +3799,7 @@
   "engine": "3.0 TFSI",
   "kw": 200,
   "ps": 272,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": [
    "HU 7035",
    "HU 7029"
@@ -3817,7 +3817,7 @@
   "engine": "3.0 TFSI (S4 quattro)",
   "kw": 245,
   "ps": 333,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": [
    "HU 7035",
    "HU 7029"
@@ -3835,7 +3835,7 @@
   "engine": "3.2 FSI",
   "kw": 195,
   "ps": 265,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7029",
   "fuel": null,
   "cabin": [
@@ -5552,7 +5552,7 @@
   "engine": "3.0 TFSI",
   "kw": 200,
   "ps": 272,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": [
    "HU 7029",
    "HU 7035"
@@ -5570,7 +5570,7 @@
   "engine": "3.0 TFSI (S5)",
   "kw": 245,
   "ps": 333,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": [
    "HU 7035",
    "HU 7029"
@@ -5588,7 +5588,7 @@
   "engine": "3.2 FSI",
   "kw": 195,
   "ps": 265,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7029",
   "fuel": null,
   "cabin": [
@@ -5603,7 +5603,7 @@
   "engine": "4.2 FSI (S5)",
   "kw": 260,
   "ps": 354,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7005",
   "fuel": null,
   "cabin": [
@@ -6019,7 +6019,7 @@
   "engine": "2.7 TDI V6",
   "kw": 132,
   "ps": 180,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -6037,7 +6037,7 @@
   "engine": "2.7 TDI V6",
   "kw": 120,
   "ps": 163,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -6058,7 +6058,7 @@
   "engine": "2.7 TDI V6",
   "kw": 140,
   "ps": 190,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": "HU 8001",
   "fuel": "WK 7002",
   "cabin": [
@@ -6118,7 +6118,7 @@
   "engine": "3.0 TDI V6",
   "kw": 176,
   "ps": 239,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": "HU 8001",
   "fuel": "WK 7002",
   "cabin": [
@@ -6133,7 +6133,7 @@
   "engine": "3.0 TDI V6",
   "kw": 171,
   "ps": 233,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -6151,7 +6151,7 @@
   "engine": "3.0 TDI V6",
   "kw": 155,
   "ps": 211,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -6172,7 +6172,7 @@
   "engine": "3.0 TDI V6",
   "kw": 166,
   "ps": 226,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": "HU 831",
   "fuel": "WK 735/1",
   "cabin": [
@@ -8350,7 +8350,7 @@
   "engine": "2.7 TDI V6",
   "kw": 140,
   "ps": 190,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": "HU 8001",
   "fuel": "WK 7002",
   "cabin": [
@@ -8365,7 +8365,7 @@
   "engine": "2.7 TDI V6 BSG,",
   "kw": 120,
   "ps": 163,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 8001",
    "HU 831"
@@ -8386,7 +8386,7 @@
   "engine": "2.7 TDI V6 BPP",
   "kw": 132,
   "ps": 180,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -8404,7 +8404,7 @@
   "engine": "3.0 TDI V6 BNG,",
   "kw": 155,
   "ps": 211,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 8001",
    "HU 831"
@@ -8425,7 +8425,7 @@
   "engine": "3.0 TDI V6 ASB",
   "kw": 171,
   "ps": 232,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": [
    "HU 831",
    "HU 8001"
@@ -8446,7 +8446,7 @@
   "engine": "3.0 TDI V6 CDYA,",
   "kw": 176,
   "ps": 239,
-  "air": "C 17 137",
+  "air": "C 17 137x",
   "oil": "HU 8001",
   "fuel": "WK 7002",
   "cabin": [
@@ -9671,7 +9671,7 @@
   "engine": "3.0 TFSI quattro (8R) CTUC,",
   "kw": 200,
   "ps": 272,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7029",
   "fuel": null,
   "cabin": [
@@ -9686,7 +9686,7 @@
   "engine": "3.0 TFSI quattro SQ5 (8R) CTUD,",
   "kw": 260,
   "ps": 353,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7029",
   "fuel": null,
   "cabin": [
@@ -9701,7 +9701,7 @@
   "engine": "3.2 FSI quattro (8R)",
   "kw": 199,
   "ps": 270,
-  "air": "C 16 114/2",
+  "air": "C 16 114/2x",
   "oil": "HU 7029",
   "fuel": null,
   "cabin": [
@@ -95526,7 +95526,7 @@
   "engine": "2.5 D D4BH",
   "kw": 73,
   "ps": 99,
-  "air": "C 14 179",
+  "air": "C 14 179x",
   "oil": null,
   "fuel": "WK 940/16",
   "cabin": null
@@ -95969,7 +95969,7 @@
   "engine": "2.5 D (P05W/P05V/P15V)",
   "kw": 51,
   "ps": 69,
-  "air": "C 14 179",
+  "air": "C 14 179x",
   "oil": null,
   "fuel": "WK 940/16",
   "cabin": null
@@ -95980,7 +95980,7 @@
   "engine": "2.5 D 4x4 (P25 W/P25V)",
   "kw": 64,
   "ps": 87,
-  "air": "C 14 179",
+  "air": "C 14 179x",
   "oil": null,
   "fuel": "WK 940/16",
   "cabin": null
