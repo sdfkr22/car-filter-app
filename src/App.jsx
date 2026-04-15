@@ -60,12 +60,6 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
   const info = FILTER_TYPES[filterKey];
   return (
     <div style={{ position: "relative" }}>
-      {/* Connector line */}
-      <div style={{
-        position: "absolute", top: "50%", left: -12, width: 12, height: 2,
-        background: "linear-gradient(90deg,#0082c833,#0082c8)",
-        transform: "translateY(-50%)", zIndex: 0
-      }} />
       <div
         onClick={() => onOpenModal(filtronCode, filterKey)}
         onMouseEnter={() => setHovered(true)}
@@ -86,12 +80,12 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         {/* Filtron badge */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#0082c8",
+          background: "#0f1a08",
           borderRadius: "0 8px 0 10px",
           padding: "3px 8px",
           fontSize: 8,
           fontWeight: 800,
-          color: "#fff",
+          color: "#0082c8",
           letterSpacing: 0.5,
           textTransform: "uppercase"
         }}>
