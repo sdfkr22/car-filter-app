@@ -404,8 +404,6 @@ export default function App() {
                   padding: "8px 22px",
                   display: "flex", alignItems: "center", gap: 8
                 }}>
-                  <span style={{ fontWeight: 900, fontSize: 14, color: "#fff", letterSpacing: 1 }}>FILTRON</span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.75)" }}>— MANN-FILTER Muadili</span>
                 </div>
               )}
 
