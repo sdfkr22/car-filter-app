@@ -24222,7 +24222,7 @@
   "engine": "3.0 S (G30, G31)",
   "kw": 285,
   "ps": 388,
-  "air": "C 285",
+  "air": null,
   "oil": "HU 6022",
   "fuel": "WK 5017",
   "cabin": [
@@ -24236,7 +24236,7 @@
   "engine": "3.0 S (G30, G31)",
   "kw": 240,
   "ps": 326,
-  "air": "C 240",
+  "air": null,
   "oil": "HU 6022",
   "fuel": "WK 5017",
   "cabin": [
@@ -24264,7 +24264,7 @@
   "engine": "3.0 S Mild-Hybrid (G30, G31)",
   "kw": 255,
   "ps": 347,
-  "air": "C 255",
+  "air": null,
   "oil": "HU 6022",
   "fuel": "WK 5017",
   "cabin": [
@@ -31122,8 +31122,7 @@
   "kw": 150,
   "ps": 204,
   "air": [
-   "C 33 156/1",
-   "C 15 84-05"
+   "C 33 156/1"
   ],
   "oil": "W 7053",
   "fuel": null,
