@@ -393,7 +393,6 @@ export default function App() {
             border: "1px solid #2a2a2a",
             borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
           }}>
-        )}
 
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
