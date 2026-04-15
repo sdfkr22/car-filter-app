@@ -393,19 +393,7 @@ export default function App() {
             border: "1px solid #2a2a2a",
             borderRadius: 14, width: "100%", maxWidth: 640, maxHeight: "80vh", display: "flex", flexDirection: "column", overflow: "hidden"
           }}>
-
-            {/* Modal Header */}
-            <div style={{ padding: "20px 22px 16px", borderBottom: "1px solid #222", flexShrink: 0 }}>
-              {/* Brand banner for Filtron */}
-              {isFiltronModal && (
-                <div style={{
-                  background: "#0082c8",
-                  margin: "-20px -22px 16px",
-                  padding: "8px 22px",
-                  display: "flex", alignItems: "center", gap: 8
-                }}>
-                </div>
-              )}
+        )}
 
               <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
