@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
 export default function ClosurePage() {
-  const message = "Site kapandı; Filtronu bitirirsen site acılır. Bu süreçte 'ağırlaştırılmış surat' cekmek istemiyorum.";
+  const message = `Site kapandı;
+Filtron u bitirirsen açılır.
+Bu süreçte “ağırlaştırılmış surat” çekmek istemiyorum.`;
+
 
   const [text, setText] = useState("");
   const [done, setDone] = useState(false);
