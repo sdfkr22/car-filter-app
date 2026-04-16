@@ -83,7 +83,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
           pointerEvents: "none", minWidth: 160
         }}>
           <img src={imgUrl} alt={filtronCode} style={{ width: 160, height: "auto", borderRadius: 6, display: "block" }} />
-          <div style={{ fontSize: 9, color: "#666", textAlign: "center", marginTop: 4 }}>MANN {mannCode}</div>
+          <div style={{ fontSize: "9", color: "#666", textAlign: "center", marginTop: 4 }}>MANN {mannCode}</div>
           <div style={{
             position: "absolute", bottom: -6, left: "50%",
             width: 12, height: 12, background: "#1a1a1a", border: "1px solid #333",
@@ -95,14 +95,14 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
       <div
         onClick={() => onOpenModal(filtronCode, filterKey)}
         style={{
-          background: "#0e0e0e",
-          border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
+          background: "linear-gradient(135deg, #0a1520, #0e1a2a)",
+          border: `1px solid ${hovered ? "#0082c8" : "#163050"}`,
           borderRadius: 8,
           padding: 14,
           cursor: "pointer",
           transition: "all .2s",
           transform: hovered ? "translateY(-1px)" : "none",
-          boxShadow: hovered ? "0 4px 16px rgba(0,130,200,0.15)" : "none",
+          boxShadow: hovered ? "0 4px 16px rgba(0,130,200,0.25)" : "0 0 0 0.5px #0082c822",
           position: "relative",
           overflow: "hidden"
         }}
@@ -110,7 +110,7 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         {/* Icon badge top-right */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#0082c820",
+          background: "#0082c8",
           borderRadius: "0 8px 0 12px",
           padding: "6px 10px",
           fontSize: 20,
@@ -124,14 +124,14 @@ function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
         <div style={{
           position: "absolute", bottom: 4, right: 8,
           fontSize: 28, opacity: 0.08, fontWeight: 900,
-          color: "#0082c8", pointerEvents: "none", userSelect: "none"
+          color: "#fff", pointerEvents: "none", userSelect: "none"
         }}>F</div>
 
         <div style={{ display: "inline-flex", alignItems: "center", gap: 5, marginBottom: 6, background: "#0082c818", padding: "2px 8px 2px 6px", borderRadius: 4, border: "1px solid #0082c825" }}>
           <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#0082c8" }} />
           <span style={{ fontSize: 9, fontWeight: 800, color: "#0082c8", letterSpacing: 1, textTransform: "uppercase" }}>FILTRON</span>
         </div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
         <div style={{ fontSize: 15, fontWeight: 700, color: "#0082c8", margin: "2px 0" }}>
@@ -181,8 +181,8 @@ function MannCard({ code, filterKey, onOpenModal }) {
       <div
         onClick={() => onOpenModal(code, filterKey)}
         style={{
-          background: "#0e0e0e",
-          border: `1px solid ${hovered ? info.color : "#1e1e1e"}`,
+          background: "linear-gradient(135deg, #141a08, #121a0a)",
+          border: `1px solid ${hovered ? "#78a22f" : "#2a3a15"}`,
           borderRadius: 8,
           padding: 14,
           cursor: "pointer",
@@ -195,13 +195,14 @@ function MannCard({ code, filterKey, onOpenModal }) {
         {/* Icon badge top-right */}
         <div style={{
           position: "absolute", top: 0, right: 0,
-          background: "#78a22f20",
+          background: "#78a22f",
           borderRadius: "0 8px 0 12px",
           padding: "6px 10px",
           fontSize: 20,
           lineHeight: 1,
           border: "1px solid #78a22f30",
-          borderTop: "none", borderRight: "none"
+          borderTop: "none", borderRight: "none",
+          color: "#fff",
         }}>
           {info.icon}
         </div>
@@ -209,7 +210,7 @@ function MannCard({ code, filterKey, onOpenModal }) {
           <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#78a22f" }} />
           <span style={{ fontSize: 9, fontWeight: 800, color: "#78a22f", letterSpacing: 1, textTransform: "uppercase" }}>MANN</span>
         </div>
-        <div style={{ fontSize: 10, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: 1 }}>
           {info.label}
         </div>
         <div style={{ fontSize: 15, fontWeight: 700, color: "#78a22f", margin: "2px 0" }}>

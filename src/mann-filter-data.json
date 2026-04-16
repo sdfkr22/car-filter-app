@@ -77022,8 +77022,7 @@
   "fuel": null,
   "cabin": [
    "CU 2033-2",
-   "CUK 2033-2",
-   "FP 74"
+   "CUK 2033-2"
   ]
  },
  {
@@ -140869,6 +140868,22 @@
   "oil": null,
   "fuel": "WK 829/3",
   "cabin": null
+ },
+ {
+  "make": "TESLA MOTORS",
+  "model": "Model 3",
+  "engine": null,
+  "kw": null,
+  "ps": null,
+  "air": null,
+  "oil": null,
+  "fuel": null,
+  "cabin": [
+    "FP 25 015",
+    "CUK 25 044",
+    "CUK 26 035",
+    "CUK 33 007"
+  ]
  },
  {
   "make": "TOYOTA",
