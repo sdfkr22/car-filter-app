@@ -3,6 +3,8 @@ import { useState, useMemo, useRef } from "react";
 import DB from './mann-filter-data.json';
 import PRODUCTS_RAW from './products.json';
 
+import ClosurePage from "./ClosurePage";
+
 // filtron.json: array of { mann, filtron, mann_url? } OR single object — normalize to map
 const FILTRON_MAP = (() => {
   const arr = Array.isArray(PRODUCTS_RAW) ? PRODUCTS_RAW : [PRODUCTS_RAW];
@@ -287,29 +289,7 @@ export default function App() {
   const isFiltronModal = modalBrand === "filtron";
   const isMaintenance = process.env.REACT_APP_MAINTENANCE === "true";
   if (isMaintenance) {
-    return (
-    <div style={{
-      margin: 0,
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "#0f0f0f",
-      color: "#fff",
-      fontFamily: "Arial, sans-serif",
-      textAlign: "center"
-    }}>
-      <div style={{ maxWidth: "700px", padding: "20px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 400, lineHeight: 1.6 }}>
-          Burayı kapattım; sen de bir ara<br />
-          <strong>“ben nerde hata yaptım”</strong> sekmesini aç.
-        </h1>
-        <div style={{ marginTop: "20px", fontSize: "12px", color: "#777" }}>
-          — site artık yayında değil —
-        </div>
-      </div>
-    </div>
-  );
+    return <ClosurePage />;
   }
   return (
     <div style={{ minHeight: "100vh", background: "#090909", color: "#e5e5e5", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
