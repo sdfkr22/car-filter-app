@@ -232,32 +232,7 @@ export default function App() {
   const closeModal = () => { setModalCode(null); setModalType(null); setModalBrand("mann"); };
 
   const isFiltronModal = modalBrand === "filtron";
-  const isMaintenance = process.env.REACT_APP_MAINTENANCE === "true";
-  if (isMaintenance) {
-    return (
-    <div style={{
-      margin: 0,
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "#0f0f0f",
-      color: "#fff",
-      fontFamily: "Arial, sans-serif",
-      textAlign: "center"
-    }}>
-      <div style={{ maxWidth: "700px", padding: "20px" }}>
-        <h1 style={{ fontSize: "22px", fontWeight: 400, lineHeight: 1.6 }}>
-          Burayı kapattım; sen de bir ara<br />
-          <strong>“ben nerde hata yaptım”</strong> sekmesini aç.
-        </h1>
-        <div style={{ marginTop: "20px", fontSize: "12px", color: "#777" }}>
-          — site artık yayında değil —
-        </div>
-      </div>
-    </div>
-  );
-  }
+  
   return (
     <div style={{ minHeight: "100vh", background: "#090909", color: "#e5e5e5", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
       <header style={{ background: "#111", borderBottom: "1px solid #222", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
