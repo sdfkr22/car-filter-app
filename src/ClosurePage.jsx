@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function ClosurePage() {
-  const message = `Site kapandı;
+  const message = `Sayfa kapandı;
 Filtron u bitirirsen açılır.
 Bu süreçte “ağırlaştırılmış surat” çekmek istemiyorum.`;
 
