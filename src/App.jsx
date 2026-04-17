@@ -253,7 +253,14 @@ export default function App() {
 
   const makes = useMemo(() => [...new Set(DB.map(d => d.make))].sort(), []);
   const models = useMemo(() => make ? [...new Set(DB.filter(d => d.make === make).map(d => d.model))].sort() : [], [make]);
-  const powers = useMemo(() => (make && model) ? DB.filter(d => d.make === make && d.model === model).map(d => ({ kw: d.kw, ps: d.ps, engine: d.engine, label: d.engine + " — " + d.ps + " PS / " + d.kw + " kW" })) : [], [make, model]);
+  const powers = useMemo(() => {
+  if (!make || !model) return [];
+  const seen = new Set();
+  return DB
+    .filter(d => d.make === make && d.model === model && d.engine && d.ps && d.kw)
+    .map(d => ({ kw: d.kw, ps: d.ps, engine: d.engine, label: d.engine + " — " + d.ps + " PS / " + d.kw + " kW" }))
+    .filter(p => { if (seen.has(p.label)) return false; seen.add(p.label); return true; });
+}, [make, model]);
   const results = useMemo(() => {
     if (!make || !model) return [];
     let filtered = DB.filter(d => d.make === make && d.model === model);
