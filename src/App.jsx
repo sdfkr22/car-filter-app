@@ -17,7 +17,7 @@ const FILTRON_MAP = (() => {
 const MANN_IMG_MAP = (() => {
   const arr = Array.isArray(PRODUCTS_RAW) ? PRODUCTS_RAW : [PRODUCTS_RAW];
   const map = {};
-  arr.forEach(({ mann, mann_url }) => { if (mann && mann_url) map[mann.trim()] = mann_url.trim(); });
+  arr.forEach(({ mann_name, mann_url }) => { if (mann_name && mann_url) map[mann_name.trim()] = mann_url.trim(); });
   return map;
 })();
 
