@@ -286,21 +286,33 @@ export default function App() {
   const ref = useRef(null);
 
   const makes = useMemo(() => [...new Set(DB.map(d => d.make))].sort(), []);
-  const models = useMemo(() => make ? [...new Set(DB.filter(d => d.make === make).map(d => d.model))].sort() : [], [make]);
+  const models = useMemo(() => {
+    if (!make) return [];
+    const seen = new Set();
+    return DB.filter(d => d.make === make)
+      .map(d => {
+        const my = d.model_year && d.model_year.trim();
+        const label = my ? d.model + " | " + my : d.model;
+        return { model: d.model, label };
+      })
+      .filter(m => { if (seen.has(m.label)) return false; seen.add(m.label); return true; })
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [make]);
+  const selectedModel = useMemo(() => models.find(m => m.label === model), [models, model]);
   const powers = useMemo(() => {
-  if (!make || !model) return [];
+  if (!make || !selectedModel) return [];
   const seen = new Set();
   return DB
-    .filter(d => d.make === make && d.model === model && d.engine && d.ps && d.kw)
+    .filter(d => d.make === make && d.model === selectedModel.model && d.engine && d.ps && d.kw)
     .map(d => ({ kw: d.kw, ps: d.ps, engine: d.engine, label: d.engine + " — " + d.ps + " PS / " + d.kw + " kW" }))
     .filter(p => { if (seen.has(p.label)) return false; seen.add(p.label); return true; });
-}, [make, model]);
+}, [make, selectedModel]);
   const results = useMemo(() => {
-    if (!make || !model) return [];
-    let filtered = DB.filter(d => d.make === make && d.model === model);
+    if (!make || !selectedModel) return [];
+    let filtered = DB.filter(d => d.make === make && d.model === selectedModel.model);
     if (power) filtered = filtered.filter(d => d.engine + " — " + d.ps + " PS / " + d.kw + " kW" === power);
     return filtered;
-  }, [make, model, power]);
+  }, [make, selectedModel, power]);
 
   const modalVehicles = useMemo(() => {
     if (!modalCode) return [];
@@ -372,7 +384,7 @@ export default function App() {
               <p style={{ color: "#555", fontSize: 11, marginBottom: 16 }}>Marka, model ve motor gücü seçerek uyumlu filtreleri görüntüleyin</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 10, marginBottom: 16 }}>
                 <Sel label="MARKA" value={make} onChange={handleMake} options={makes} ph="Marka seçin..." />
-                <Sel label="MODEL" value={model} onChange={handleModel} options={models} ph={make ? "Model seçin..." : "Önce marka seçin"} disabled={!make} />
+                <Sel label="MODEL" value={model} onChange={handleModel} options={models.map(m => m.label)} ph={make ? "Model seçin..." : "Önce marka seçin"} disabled={!make} />
                 <Sel label="MOTOR / GÜÇ (PS / kW)" value={power} onChange={setPower} options={powers.map(p => p.label)} ph={model ? "Motor seçin (opsiyonel)" : "Önce model seçin"} disabled={!model} />
               </div>
               {make && model && (
