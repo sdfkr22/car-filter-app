@@ -836,7 +836,7 @@
     "mann_name": "C 16 134/2",
     "label": "Hava filtresi",
     "mann_url": "https://s7g10.scene7.com/is/image/mannhummel/C_16_134.2-erp1422152S52-filter-with-box?qlt=82&ts=1774294014318&dpr=off",
-    "filtron": null,
+    "filtron": "AK372/1",
     "filtron_url": ""
   },
   {
@@ -1340,7 +1340,7 @@
     "mann_name": "C 19 008",
     "label": "Hava filtresi",
     "mann_url": "https://s7g10.scene7.com/is/image/mannhummel/C_19_008-filter-with-box?qlt=82&ts=1774294015599&dpr=off",
-    "filtron": null,
+    "filtron": "AP124/8",
     "filtron_url": ""
   },
   {
@@ -2436,7 +2436,7 @@
     "mann_name": "C 24 007",
     "label": "Hava filtresi",
     "mann_url": "https://s7g10.scene7.com/is/image/mannhummel/C_24_007-filter-with-box?qlt=82&ts=1774293506387&dpr=off",
-    "filtron": null,
+    "filtron": "AP142/7",
     "filtron_url": ""
   },
   {
@@ -2444,7 +2444,7 @@
     "mann_name": "C 24 010",
     "label": "Hava filtresi",
     "mann_url": "https://s7g10.scene7.com/is/image/mannhummel/C_24_010?qlt=82&ts=1774287223785&dpr=off",
-    "filtron": null,
+    "filtron": "AP107/3",
     "filtron_url": ""
   },
   {
