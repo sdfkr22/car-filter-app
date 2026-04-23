@@ -9,7 +9,7 @@ import ClosurePage from "./ClosurePage";
 const FILTRON_MAP = (() => {
   const arr = Array.isArray(PRODUCTS_RAW) ? PRODUCTS_RAW : [PRODUCTS_RAW];
   const map = {};
-  arr.forEach(({ mann, filtron }) => { if (mann && filtron) map[mann.trim()] = filtron.trim(); });
+  arr.forEach(({ mann_name, filtron }) => { if (mann_name && filtron) map[mann_name.trim()] = filtron.trim(); });
   return map;
 })();
 
