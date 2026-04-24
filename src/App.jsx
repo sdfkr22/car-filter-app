@@ -36,40 +36,12 @@ const FILTER_TYPES = {
   fuel:  { label: "Yakıt Filtresi", icon: "⛽", color: "#ef4444" },
 };
 
-function buildUrl(code) {
-  if (!code) return null;
-  const c = code.split(" / ")[0].replace(/\s+/g, "").toLowerCase();
-  return "https://www.mann-filter.com/tr-tr/katalog/arama-sonuclar%C4%B1/urun.html/" + c + "_mann-filter.html";
-}
-
 function getFiltronUrl(filtronCode) {
   if (!filtronCode) return null;
   const url = FILTRON_URL_MAP[filtronCode];
   return url || null;
 }
 
-function buildFiltronPageUrl(filtronCode) {
-  if (!filtronCode) return null;
-  // Build slug: "OP 616/3" -> "OP-616-3"
-  const slug = filtronCode.replace(/\s+/g, "-").replace(/\//g, "-");
-  // Determine category/subcategory from prefix
-  const code = filtronCode.trim().toUpperCase();
-  let path = null;
-  if (/^OP\b/.test(code)) path = "oil-filter/spin-on-oil-filter";
-  else if (/^OE\b/.test(code)) path = "oil-filter/oil-filter-insert";
-  else if (/^AR\b/.test(code)) path = "air-filter/round-air-filter";
-  else if (/^AP\b/.test(code)) path = "air-filter/panel-air-filter";
-  else if (/^AK\b/.test(code)) path = "air-filter/round-air-filter";
-  else if (/^K\s?\d.*A$/i.test(code)) path = "cabin-filter/activated-carbon-cabin-filter";
-  else if (/^K\s?\d/.test(code)) path = "cabin-filter/standard-cabin-filter";
-  else if (/^PP\b/.test(code)) path = "fuel-filter/spin-on-fuel-filter";
-  else if (/^PE\b/.test(code)) path = "fuel-filter/fuel-filter-insert";
-  if (path) {
-    return "https://filtron.eu/en/filter-catalogue/" + path + "," + slug;
-  }
-  // Fallback: search
-  return "https://filtron.eu/en/catalogue-frame?action=showFilter&partNumber=" + encodeURIComponent(filtronCode);
-}
 
 function toArray(val) {
   if (val == null) return [];
@@ -85,23 +57,11 @@ function findVehiclesByFilter(code) {
   );
 }
 
-function getFilterType(code) {
-  for (const d of DB) {
-    if (toArray(d.oil).includes(code)) return "oil";
-    if (toArray(d.air).includes(code)) return "air";
-    if (toArray(d.cabin).includes(code)) return "cabin";
-    if (toArray(d.fuel).includes(code)) return "fuel";
-  }
-  return null;
-}
-
 /* ── Filtron Card ── */
 function FiltronCard({ mannCode, filtronCode, filterKey, onOpenModal }) {
   const [hovered, setHovered] = useState(false);
   const info = FILTER_TYPES[filterKey];
   const filtronImgUrl = getFiltronUrl(filtronCode);
-  const filtronPageUrl = buildFiltronPageUrl(filtronCode);
-
   return (
     <div style={{ position: "relative" }}
       onMouseEnter={() => setHovered(true)}
@@ -186,7 +146,6 @@ function MannCard({ code, filterKey, onOpenModal }) {
   const [hovered, setHovered] = useState(false);
   const info = FILTER_TYPES[filterKey];
   const filtronCode = FILTRON_MAP[code];
-  const filtronUrl = getFiltronUrl(filtronCode);
   const imgUrl = MANN_IMG_MAP[code];
   return (
     <div style={{ display: "contents" }}>
@@ -278,41 +237,27 @@ export default function App() {
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [power, setPower] = useState("");
-  const [productSearch, setProductSearch] = useState("");
-  const [tab, setTab] = useState("vehicle");
   const [modalCode, setModalCode] = useState(null);
   const [modalType, setModalType] = useState(null);
   const [modalBrand, setModalBrand] = useState("mann"); // "mann" | "filtron"
   const ref = useRef(null);
 
   const makes = useMemo(() => [...new Set(DB.map(d => d.make))].sort(), []);
-  const models = useMemo(() => {
-    if (!make) return [];
-    const seen = new Set();
-    return DB.filter(d => d.make === make)
-      .map(d => {
-        const my = d.model_year && d.model_year.trim();
-        const label = my ? d.model + " | " + my : d.model;
-        return { model: d.model, label };
-      })
-      .filter(m => { if (seen.has(m.label)) return false; seen.add(m.label); return true; })
-      .sort((a, b) => a.label.localeCompare(b.label));
-  }, [make]);
-  const selectedModel = useMemo(() => models.find(m => m.label === model), [models, model]);
+  const models = useMemo(() => make ? [...new Set(DB.filter(d => d.make === make).map(d => d.model))].sort() : [], [make]);
   const powers = useMemo(() => {
-  if (!make || !selectedModel) return [];
+  if (!make || !model) return [];
   const seen = new Set();
   return DB
-    .filter(d => d.make === make && d.model === selectedModel.model && d.engine && d.ps && d.kw)
+    .filter(d => d.make === make && d.model === model && d.engine && d.ps && d.kw)
     .map(d => ({ kw: d.kw, ps: d.ps, engine: d.engine, label: d.engine + " — " + d.ps + " PS / " + d.kw + " kW" }))
     .filter(p => { if (seen.has(p.label)) return false; seen.add(p.label); return true; });
-}, [make, selectedModel]);
+}, [make, model]);
   const results = useMemo(() => {
-    if (!make || !selectedModel) return [];
-    let filtered = DB.filter(d => d.make === make && d.model === selectedModel.model);
+    if (!make || !model) return [];
+    let filtered = DB.filter(d => d.make === make && d.model === model);
     if (power) filtered = filtered.filter(d => d.engine + " — " + d.ps + " PS / " + d.kw + " kW" === power);
     return filtered;
-  }, [make, selectedModel, power]);
+  }, [make, model, power]);
 
   const modalVehicles = useMemo(() => {
     if (!modalCode) return [];
@@ -354,7 +299,6 @@ export default function App() {
           <span style={{ fontSize: 10, color: "#555", padding: "2px 8px", background: "#1a1a1a", borderRadius: 10, border: "1px solid #252525" }}>+ FILTRON</span>
           <span style={{ fontSize: 12, color: "#666", marginLeft: 4 }}>Filtre Sorgulama</span>
         </div>
-        <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ fontSize: 11, color: "#78a22f", textDecoration: "none", padding: "5px 12px", border: "1px solid #333", borderRadius: 6, fontWeight: 600 }}>Resmi Katalog ↗</a>
       </header>
 
       <div style={{ background: "linear-gradient(135deg,#111a08,#090909 50%,#141200)", padding: "36px 20px 24px", textAlign: "center" }}>
@@ -368,23 +312,14 @@ export default function App() {
         </p>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", padding: "14px 16px 0" }}>
-        <div style={{ display: "flex", gap: 2, background: "#1a1a1a", borderRadius: 8, padding: 3 }}>
-          {[{ id: "vehicle", l: "🚗 Araç Seçimi" }, { id: "product", l: "🔍 Ürün Kodu" }].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "8px 16px", fontSize: 13, fontWeight: tab === t.id ? 700 : 400, border: "none", borderRadius: 6, cursor: "pointer", background: tab === t.id ? "#78a22f" : "transparent", color: tab === t.id ? "#090909" : "#777" }}>{t.l}</button>
-          ))}
-        </div>
-      </div>
-
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 16px 60px" }}>
-        {tab === "vehicle" && (
-          <div>
-            <div style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 22, marginTop: 6 }}>
+        <div>
+          <div style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 22, marginTop: 6 }}>
               <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>Araç Bilgilerini Seçin</h3>
               <p style={{ color: "#555", fontSize: 11, marginBottom: 16 }}>Marka, model ve motor gücü seçerek uyumlu filtreleri görüntüleyin</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 10, marginBottom: 16 }}>
                 <Sel label="MARKA" value={make} onChange={handleMake} options={makes} ph="Marka seçin..." />
-                <Sel label="MODEL" value={model} onChange={handleModel} options={models.map(m => m.label)} ph={make ? "Model seçin..." : "Önce marka seçin"} disabled={!make} />
+                <Sel label="MODEL" value={model} onChange={handleModel} options={models} ph={make ? "Model seçin..." : "Önce marka seçin"} disabled={!make} />
                 <Sel label="MOTOR / GÜÇ (PS / kW)" value={power} onChange={setPower} options={powers.map(p => p.label)} ph={model ? "Motor seçin (opsiyonel)" : "Önce model seçin"} disabled={!model} />
               </div>
               {make && model && (
@@ -442,54 +377,7 @@ export default function App() {
               </div>
             )}
           </div>
-        )}
-
-        {tab === "product" && (
-          <div>
-            <div style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 22, marginTop: 6 }}>
-              <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 3 }}>Ürün Kodu ile Arama</h3>
-              <p style={{ color: "#555", fontSize: 11, marginBottom: 16 }}>MANN-FILTER parça numarası girerek uyumlu araçları görüntüleyin veya resmi katalogda açın</p>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <input value={productSearch} onChange={e => setProductSearch(e.target.value)}
-                  onKeyDown={e => {
-                    if (e.key === "Enter") {
-                      const trimmed = productSearch.trim();
-                      if (trimmed) {
-                        const type = getFilterType(trimmed);
-                        if (type) { openModal(trimmed, type, "mann"); }
-                        else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
-                      }
-                    }
-                  }}
-                  placeholder="Örn: HU 719/7 x, W 712/95, CUK 2939" style={{ flex: "1 1 220px", padding: "10px 12px", background: "#1a1a1a", border: "1px solid #333", borderRadius: 8, color: "#e5e5e5", fontSize: 13, outline: "none" }} />
-                <button onClick={() => {
-                  const trimmed = productSearch.trim();
-                  if (trimmed) {
-                    const type = getFilterType(trimmed);
-                    if (type) { openModal(trimmed, type, "mann"); }
-                    else { const u = buildUrl(trimmed); if (u) window.open(u, "_blank"); }
-                  }
-                }} style={{ padding: "10px 18px", background: "#78a22f", color: "#090909", border: "none", borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>Ara</button>
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 10 }}>
-                {["HU 719/7 x", "W 712/95", "C 30 005", "CUK 2939", "HU 7020 z", "PU 8014", "HU 816 x", "CU 25 001", "WK 69/2", "HU 7008 z", "C 35 154", "HU 6013 z", "HU 618 y", "HU 7048 z"].map(c => (
-                  <button key={c} onClick={() => { setProductSearch(c); const type = getFilterType(c); if (type) openModal(c, type, "mann"); }}
-                    style={{ padding: "3px 9px", background: "#1a1a1a", border: "1px solid #252525", borderRadius: 14, color: "#777", fontSize: 10, cursor: "pointer" }}>{c}</button>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 10, marginTop: 14 }}>
-              {Object.entries(FILTER_TYPES).map(([k, info]) => (
-                <a key={k} href={"https://www.mann-filter.com/tr-tr/urunler/" + (k === "oil" ? "yag-filtresi" : k === "air" ? "hava-filtresi" : k === "cabin" ? "kabin-filtresi" : "yakit-filtresi") + ".html"} target="_blank" rel="noopener" style={{ background: "#131313", border: "1px solid #222", borderRadius: 10, padding: 16, textDecoration: "none", color: "#e5e5e5", transition: "border-color .2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = info.color} onMouseLeave={e => e.currentTarget.style.borderColor = "#222"}>
-                  <div style={{ fontSize: 22, marginBottom: 5 }}>{info.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>{info.label}</div>
-                  <div style={{ fontSize: 10, color: "#666" }}>Resmi sayfayı görüntüle ↗</div>
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
 
       {/* MODAL */}
       {modalCode && (() => {
@@ -499,8 +387,6 @@ export default function App() {
         const modalMannImgUrl = modalMannCode ? MANN_IMG_MAP[modalMannCode] : null;
         const modalFiltronImgUrl = isFiltronModal ? getFiltronUrl(modalCode) : null;
         const modalImgUrl = isFiltronModal ? modalFiltronImgUrl : modalMannImgUrl;
-        const modalFiltronPageUrl = isFiltronModal ? buildFiltronPageUrl(modalCode) : null;
-
         return (
         <div onClick={closeModal} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.7)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
           <div onClick={e => e.stopPropagation()} style={{
@@ -581,7 +467,7 @@ export default function App() {
       })()}
 
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "14px 20px", textAlign: "center", fontSize: 10, color: "#444" }}>
-        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noopener" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır.
+        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noreferrer" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır.
         Filtron muadilleri ayrıca gösterilmektedir. Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
       </footer>
     </div>
