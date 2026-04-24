@@ -294,22 +294,23 @@ export default function App() {
     <div style={{ minHeight: "100vh", background: "#090909", color: "#e5e5e5", fontFamily: "'Segoe UI',system-ui,sans-serif" }}>
       <header style={{ background: "#111", borderBottom: "1px solid #222", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 4, height: 32, borderRadius: 2, background: "linear-gradient(180deg,#78a22f,#f5c518)" }} />
-          <span style={{ fontWeight: 700, fontSize: 17 }}>MANN<span style={{ color: "#78a22f" }}>-FILTER</span></span>
-          <span style={{ fontSize: 10, color: "#555", padding: "2px 8px", background: "#1a1a1a", borderRadius: 10, border: "1px solid #252525" }}>+ FILTRON</span>
+          <div style={{ width: 4, height: 32, borderRadius: 2, background: "linear-gradient(180deg,#8fa4c0,#c4d4e4)" }} />
+          <span style={{ fontWeight: 700, fontSize: 17 }}>auto<span style={{ color: "#8fa4c0" }}>-filter</span></span>
+          <span style={{ fontSize: 10, color: "#555", padding: "2px 8px", background: "#1a1a1a", borderRadius: 10, border: "1px solid #252525" }}>MANN-FILTER · FILTRON</span>
           <span style={{ fontSize: 12, color: "#666", marginLeft: 4 }}>Filtre Sorgulama</span>
         </div>
       </header>
 
-      <div style={{ background: "linear-gradient(135deg,#111a08,#090909 50%,#141200)", padding: "36px 20px 24px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "clamp(22px,4vw,34px)", fontWeight: 700, marginBottom: 6 }}>Aracınıza Uygun <span style={{ color: "#78a22f" }}>Filtreyi</span> Bulun</h1>
+      <div style={{ background: "linear-gradient(135deg,#0d1520,#090909 50%,#0d0d15)", padding: "36px 20px 24px", textAlign: "center" }}>
+        <h1 style={{ fontSize: "clamp(22px,4vw,34px)", fontWeight: 700, marginBottom: 6 }}>Aracınıza Uygun <span style={{ color: "#8fa4c0" }}>Filtreyi</span> Bulun</h1>
         <p style={{ color: "#777", fontSize: 13, maxWidth: 520, margin: "0 auto" }}>
-          MANN-FILTER 2024-26 kataloğu — {DB.length} araç-motor eşleşmesi · {makes.length} marka
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 4, marginLeft: 8, color: "#0082c8", fontSize: 11 }}>
-            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#0082c8", display: "inline-block" }}></span>
-            Filtron muadilleri dahil
-          </span>
+          {DB.length} araç-motor eşleşmesi · {makes.length} marka
         </p>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 10, padding: "5px 14px", background: "#111", border: "1px solid #222", borderRadius: 20 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#78a22f", letterSpacing: 0.5 }}>MANN-FILTER</span>
+          <span style={{ fontSize: 10, color: "#333" }}>·</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#0082c8", letterSpacing: 0.5 }}>FILTRON</span>
+        </div>
       </div>
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 16px 60px" }}>
@@ -324,7 +325,7 @@ export default function App() {
               </div>
               {make && model && (
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <p style={{ fontSize: 12, color: "#78a22f" }}>{results.length} sonuç bulundu</p>
+                  <p style={{ fontSize: 12, color: "#8fa4c0" }}>{results.length} sonuç bulundu</p>
                   {/* Legend */}
                   <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "#555" }}>
@@ -354,9 +355,9 @@ export default function App() {
                   return (
                     <div key={ri} style={{ background: "#131313", border: "1px solid #222", borderRadius: 12, padding: 20, marginBottom: 12 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-                        <div style={{ width: 7, height: 7, background: "#78a22f", borderRadius: "50%" }} />
+                        <div style={{ width: 7, height: 7, background: "#8fa4c0", borderRadius: "50%" }} />
                         <h3 style={{ fontSize: 14, fontWeight: 700 }}>{r.make} {r.model} — {r.engine}</h3>
-                        <span style={{ fontSize: 11, color: "#78a22f", marginLeft: "auto", background: "#1a2a10", padding: "3px 10px", borderRadius: 12 }}>{r.ps} PS / {r.kw} kW</span>
+                        <span style={{ fontSize: 11, color: "#8fa4c0", marginLeft: "auto", background: "#151e2a", padding: "3px 10px", borderRadius: 12 }}>{r.ps} PS / {r.kw} kW</span>
                       </div>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 10 }}>
                         {filterCards.map((f, fi) => (
@@ -467,8 +468,7 @@ export default function App() {
       })()}
 
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "14px 20px", textAlign: "center", fontSize: 10, color: "#444" }}>
-        Veriler <a href="https://www.mann-filter.com/tr-tr/katalog.html" target="_blank" rel="noreferrer" style={{ color: "#78a22f", textDecoration: "none" }}>MANN-FILTER 2024-26 Kataloğu</a> PDF'inden çıkarılmıştır.
-        Filtron muadilleri ayrıca gösterilmektedir. Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
+        Kartlara tıklayarak uyumlu araçları görüntüleyebilirsiniz.
       </footer>
     </div>
   );
